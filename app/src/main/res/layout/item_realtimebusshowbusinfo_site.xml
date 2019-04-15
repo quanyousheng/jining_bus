@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:orientation="horizontal"
+    android:background="@color/white">
+    <ImageView
+        android:id="@+id/iv_bus"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/aty_realtimebusshowbusinfo_itembus"
+        android:layout_marginLeft="41dp"
+        android:layout_centerVertical="true"/>
+    <LinearLayout
+        android:layout_width="12dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="71dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+        <View
+            android:id="@+id/v_topline"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/common_line_gray_onepx"/>
+        <ImageView
+            android:id="@+id/iv_sitecircle"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:visibility="visible"
+            android:background="@drawable/aty_realtimebusshowbusinfo_itemsitenotget"/>
+        <View
+            android:id="@+id/v_bottomline"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/common_line_gray_onepx"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_site"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_centerVertical="true"
+        android:textSize="12dp"
+        android:textColor="@color/comon_text_black_normal"/>
+</RelativeLayout>

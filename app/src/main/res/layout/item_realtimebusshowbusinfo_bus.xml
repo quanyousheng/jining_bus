@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="20dp"
+    android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/iv_bus"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/aty_realtimebusshowbusinfo_itembus"
+        android:layout_marginLeft="41dp"/>
+</LinearLayout>

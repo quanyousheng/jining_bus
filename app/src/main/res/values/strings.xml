@@ -1,0 +1,215 @@
+<resources>
+    <string name="data_password">12345ssdlhlhbcfzcdhd</string>
+    <!--<string name="app_name">济宁公交App</string>-->
+    <string name="app_name">济宁公交App(测试版不能外流)</string>
+    <string name="app_alertdialog_title">系统提示</string>
+    <string name="app_alertdialog_exception_msg">系统异常</string>
+    <string name="app_request_exception_msg">请求失败</string>
+    <string name="app_request_exception_code">-1</string>
+    <string name="app_no_permission">请在设置-应用-济宁公交App-权限中开启读写存储权限，以正常使用app功能</string>
+    <string name="app_loading_qrparam_false">参数预加载失败</string>
+    <string name="app_function_notopen">功能暂未开通</string>
+    <string name="app_notnet">网络未连接</string>
+    <string name="app_submit">提交</string>
+    <string name="app_back">返回</string>
+
+
+    <!--主页activity-->
+    <string name="aty_main_home">首页</string>
+    <string name="aty_main_myself">我的</string>
+    <string name="calls_phone">0537-3258020</string>
+
+
+
+    <!--我的钱包页面-->
+    <string name="mypurse_title">我的钱包</string>
+    <string name="mypurse_balance_remarks">可用余额(元)</string>
+    <string name="mypurse_nextbutton_text">立即充值</string>
+
+
+
+    <!--充值钱包页面-->
+    <string name="paypurse_title">钱包充值</string>
+    <string name="paypurse_btntext">确认充值¥%1$.2f</string>
+    <string name="paypurse_btntext_default">确认充值¥</string>
+    <string name="paypurse_balance_remarks">可用余额(元)</string>
+    <string name="paypurse_money_remarks">充值金额</string>
+    <string name="paypurse_noselect_money_toast">请选择充值金额</string>
+    <string name="paypurse_usepromt">说明:试运营期间服务费减免</string>
+
+    <!--消费记录-->
+    <string name="consumrecords_title">消费账单</string>
+    <string name="consumrecords_type_recharge">充值记录</string>
+    <string name="consumrecords_type_consum">消费记录</string>
+    <string name="consumrecords_type_item_recharge">钱包充值</string>
+    <string name="consumrecords_type_item_deposit">押金缴费</string>
+    <string name="consumrecords_type_item_rechargecard">实体卡充值</string>
+    <string name="consumrecords_type_item_consum">乘车刷码</string>
+    <string name="consumrecords_item_nomore">没有更多数据了~</string>
+    <string name="consumrecords_orderrechargetype_weichat">微信支付</string>
+    <string name="consumrecords_consumetype_purse">钱包支付</string>
+    <string name="consumrecords_consumetype_common">消费金额</string>
+    <string name="consumrecords_orderrechargetype_common">充值金额</string>
+    <string name="consumrecords_item_cardno">卡号:</string>
+    <string name="consumrecords_item_routeno">车辆线路号:</string>
+
+
+    <!--设置-->
+    <string name="settings_title">设置</string>
+    <string name="settings_city">当前城市</string>
+    <string name="settings_city_info">济宁</string>
+    <string name="settings_version">版本号</string>
+    <string name="settings_clean_cache_size_format">共清理%1$.2fM缓存</string>
+    <string name="settings_cache_size_format">%1$.2fM</string>
+    <string name="settings_nomore_cache">没有缓存可以清理</string>
+    <string name="settings_update">更新app版本</string>
+    <string name="settings_havenewversion">有最新的app版本是否下载</string>
+    <string name="settings_nothavenewversion">当前版本已经是最新版本</string>
+
+
+    <!--我的页面-->
+    <string name="myself_tab_mypurse">我的钱包</string>
+    <string name="myself_tab_deposit">消费账单</string>
+    <string name="myself_tab_usehelp">使用帮助</string>
+    <string name="myself_tab_calls">联系客服</string>
+    <string name="myself_tab_aboutus">关于我们</string>
+    <string name="myself_tab_settings">设置</string>
+    <string name="myself_pleaselogin">请登录</string>
+
+    <!--自动更新-->
+    <string name="update_tv_dowanload">正在更新%1$d％</string>
+
+
+
+
+
+    <!--二维码总页面-->
+    <string name="activtiy_qrcode_title">刷码乘车</string>
+    <string name="frg_qrcode_cardnum">卡号:</string>
+    <string name="activity_qrcode_qrcard_exception">二维码状态异常</string>
+    <string name="activity_qrcode_function_notopen">功能暂未开通</string>
+
+    <!--二维码显示小页面-->
+    <string name="frg_qrcode_please_refresh">请点击二维码刷新</string>
+    <string name="frg_qrcode_is_refresh">已刷新</string>
+    <string name="frg_qrcode_paytypelater_mypurse">我的钱包</string>
+    <string name="frg_qrcode_topay">去充值</string>
+
+    <!--二维码问题小页面各种情况-->
+    <string name="frg_qrcodeexception_textinfo_notopen">当前账户未开通该功能，申请开通才能使用</string>
+    <string name="frg_qrcodeexception_textinfo_balancecantuse">当前账户余额不足，请充值至余额大于</string>
+    <string name="frg_qrcodeexception_textinfo_arrear">当前账户已经欠费，请补缴</string>
+    <string name="frg_qrcodeexception_textinfo_deposit">当前账户未交押金，请交付押金</string>
+    <string name="frg_qrcodeexception_textinfo_notbindpaytype">当前账户未绑定支付方式，请至少绑定一种以上支付方式</string>
+
+    <string name="frg_qrcodeexception_buttoninfo_notopen">立即开通</string>
+    <string name="frg_qrcodeexception_buttoninfo_balancecantuse">立即充值</string>
+    <string name="frg_qrcodeexception_buttoninfo_arrear">立即补缴欠费</string>
+    <string name="frg_qrcodeexception_buttoninfo_deposit">立即交付押金</string>
+    <string name="frg_qrcodeexception_buttoninfo_notbindpaytype">立即绑定</string>
+
+    <string name="frg_qrcodeexception_opensuccess">二维码电子卡开通成功</string>
+    <string name="frg_qrcodeexception_openfaild">二维码电子卡开通失败</string>
+
+
+
+
+
+    <!--使用帮助页面-->
+    <string name="usehelp_title">使用帮助</string>
+    <string name="usehelp_Q_1">Q：如何开通刷码功能？</string>
+    <string name="usehelp_a_1_1">进入刷码页面，如果有已经绑定的支付方式则可以直接刷码使用，如果没有绑定任何支付方式则进入绑定支付方式页面。</string>
+    <string name="usehelp_a_1_2">进入刷码页面，如果有已经绑</string>
+    <string name="usehelp_a_1_3">进入刷码页面，如果有已经绑定的支付方式则可以直接刷码使用，如果没有绑定任何支付方式则进入绑定支付方式页面。</string>
+    <string name="usehelp_Q_2">Q：如何开通刷码功能？</string>
+    <string name="usehelp_a_2_1">进入刷码页面，如果有已经绑定的支付方式则可以直接刷码使用，如果没有绑定任何支付方式则进入绑定支付方式页面。</string>
+    <string name="usehelp_a_2_2">进入刷码页面，如果有已经绑定的支付方式则可以</string>
+    <string name="usehelp_a_2_3">进入刷码页面，如果有已经绑定的支付方式则可以直接刷码使用，如果没有绑定任何支付方式则进入绑定支付方式页面。</string>
+    <string name="usehelp_Q_3">Q：如何开通刷码功能？</string>
+    <string name="usehelp_a_3_1">进入刷码页面，如果有已经绑定的</string>
+    <string name="usehelp_a_3_2">进入刷码页面，如果有已经绑定的支付方式则可以直</string>
+    <string name="usehelp_a_3_3">进入刷码页面，如果有已经绑定的支付</string>
+
+
+    <!--快捷登录-->
+    <string name="login_bigtitle">快捷登录</string>
+    <string name="login_getvertify">获取验证码</string>
+    <string name="login_getvertify_again">重新获取验证码</string>
+    <string name="login_after_getvertify">秒后可重新发送</string>
+    <string name="login_please_inputphone">请输入手机号码</string>
+    <string name="login_please_inputvertify">请输入验证码</string>
+    <string name="login_login">登录</string>
+    <string name="login_promt_notinputinfo">手机号与验证码都不能为空</string>
+    <string name="login_promt_notinputphone">手机号不能为空</string>
+    <string name="login_promt_phoneform_error">手机号格式错误</string>
+    <string name="login_promt_vertifyform_error">验证码格式错误</string>
+    <string name="login_sendsms_true">请求验证码发送成功</string>
+    <string name="login_sendsms_false">请求验证码发送失败</string>
+    <string name="login_login_false">登录失败</string>
+
+
+    <!--支付下单html页面-->
+    <string name="payhtml_title">支付</string>
+
+
+
+    <string name="aboutus_title">关于我们</string>
+    <string name="aboutus_txt">济宁公交App是济宁公交推出的二维码乘车APP，提供公交扫码乘车服务</string>
+    <string name="aboutus_phonetitle">公交热线</string>
+    <string name="aboutus_phone">0537-3258020</string>
+    <!--<string name="aboutus_weburltitle">公司官网</string>
+    <string name="aboutus_weburl">www.puyangbus.com</string>
+    <string name="aboutus_bootomtxt">版权归濮阳市众意公共交通有限公司所有</string>-->
+
+    <string name="aty_busmap_title">公交地图</string>
+
+
+    <!--云充页面-->
+    <string name="cloudrecharge_title">卡片云充</string>
+    <string name="cloudrecharge_mark_frgCloudRechargeCardTopay">frgCloudRechargeCardTopay</string>
+    <string name="cloudrecharge_mark_frgCloudRechargeCardSuccess">frgCloudRechargeCardSuccess</string>
+    <string name="cloudrecharge_havepay_yes">1</string>
+    <string name="cloudrecharge_havepay_no">0</string>
+
+    <string name="cloudrecharge_cardno_prompt">充值卡号</string>
+    <string name="cloudrecharge_cardno_input_prompt">请正确输入卡号</string>
+    <string name="cloudrecharge_cardnoagain_prompt">再次输入</string>
+    <string name="cloudrecharge_cardno_inputagain_prompt">请再次输入卡号</string>
+    <string name="cloudrecharge_cardtype_prompt">充值类型</string>
+    <string name="cloudrecharge_cardtype_input_prompt">请选择充值卡类型</string>
+    <string name="cloudrecharge_money_prompt">充值金额</string>
+    <string name="cloudrecharge_paytype">支付方式</string>
+    <string name="cloudrecharge_submit">立即充值</string>
+    <string name="cloudrecharge_toast_pleaseinput">请输入卡号</string>
+    <string name="cloudrecharge_toast_pleasetwiceequals">请保持两次卡号一致</string>
+    <string name="cloudrecharge_toast_pleaseselectmoney">请选择支付金额</string>
+    <string name="cloudrecharge_toast_cardnoerror">卡号格式错误</string>
+    <string name="cloudrecharge_toast_cloud_failed">支付失败</string>
+
+    <string name="cloudrecharge_success_promot1">充值成功!</string>
+    <string name="cloudrecharge_success_promot2">点击确定按钮返回首页</string>
+    <string name="cloudrecharge_success_successbtn">确定</string>
+
+
+    <!--实时公交-->
+    <string name="realtimebushome_title">实时公交</string>
+    <string name="realtimebushome_search">搜索公交线路</string>
+    <string name="realtimebushome_nearbysite">附近站点</string>
+    <string name="realtimebushome_refresh">刷新</string>
+    <string name="realtimebushome_recently">（离我最近）</string>
+
+
+    <!--实时公交搜索页面-->
+    <string name="realtimebussearch_title">查询</string>
+    <string name="realtimebussearch_query">查询</string>
+    <string name="realtimebussearch_cancel">取消</string>
+    <string name="realtimebussearch_deletehistory">清空历史记录</string>
+
+
+
+    实时公交显示具体页面
+    <string name="realtimebusshowbusinfo_title">实时公交</string>
+    <string name="realtimebusshowbusinfo_refresh">刷新</string>
+    <string name="realtimebusshowbusinfo_changedirection">换向</string>
+
+</resources>

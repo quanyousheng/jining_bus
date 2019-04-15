@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+    <include layout="@layout/layout_titlebar_white"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="93dp"
+        android:background="@color/app_theme"></RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="57dp"></RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/common_line_gray_onepx"/>
+    <ListView
+        android:id="@+id/lv_busandsiteinfo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:divider="@null"
+        android:layout_weight="1"></ListView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:background="@color/app_theme"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/tv_changedirection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:gravity="center_vertical"
+                android:drawablePadding="6dp"
+                android:textSize="11dp"
+                android:text="@string/realtimebusshowbusinfo_changedirection"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/aty_realtimebusshowbusinfo_changedirection" />
+        </FrameLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="15dp"
+            android:background="@color/white" />
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/tv_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="11dp"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:drawablePadding="6dp"
+                android:text="@string/realtimebusshowbusinfo_refresh"
+                android:drawableLeft="@drawable/aty_realtimebusshowbusinfo_refresh" />
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>
