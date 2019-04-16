@@ -26,7 +26,6 @@ import com.whpe.qrcode.shandong_jining.activity.ActivityLogin;
 import com.whpe.qrcode.shandong_jining.activity.ActivityMain;
 import com.whpe.qrcode.shandong_jining.activity.ActivityMypurse;
 import com.whpe.qrcode.shandong_jining.activity.ActivityNewsAndAdvertiseWeb;
-import com.whpe.qrcode.shandong_jining.activity.ActivityNewsWeb;
 import com.whpe.qrcode.shandong_jining.activity.ActivityTitleWeb;
 import com.whpe.qrcode.shandong_jining.activity.realtimebus.ActivityRealTimeBusHome;
 import com.whpe.qrcode.shandong_jining.bigtools.GlobalConfig;
@@ -38,7 +37,6 @@ import com.whpe.qrcode.shandong_jining.toolbean.TrueNewsBean;
 import com.whpe.qrcode.shandong_jining.view.adapter.FakeNewsRlAdapter;
 import com.whpe.qrcode.shandong_jining.view.adapter.HomeTopPagerAdapter;
 import com.whpe.qrcode.shandong_jining.view.adapter.TrueNewsRlAdapter;
-import com.whpe.qrcode.shandong_jining.view.adapter.holder.NewsRlHolder;
 import com.whpe.qrcode.shandong_jining.view.adapter.holder.TrueNewsRlHolder;
 
 import java.util.ArrayList;
@@ -58,6 +56,7 @@ public class FrgHome extends Fragment implements View.OnClickListener, ShowNewsC
     private ImageView iv_tabusehelp;
     private ImageView iv_tabcloudrechargecard;
     private ImageView iv_tabsearchstudentcard;
+    private ImageView iv_realTimeBus;
     private LinearLayout ll_content;
     private RecyclerView rl_news;
     private FakeNewsRlAdapter fakeNewsRlAdapter;
@@ -125,6 +124,7 @@ public class FrgHome extends Fragment implements View.OnClickListener, ShowNewsC
         iv_tabbusmap.setOnClickListener(this);
         iv_tabcallsus.setOnClickListener(this);
         iv_tabusehelp.setOnClickListener(this);
+        iv_realTimeBus.setOnClickListener(this);
         iv_tabcloudrechargecard.setOnClickListener(this);
         iv_tabsearchstudentcard.setOnClickListener(this);
         initTitle();
@@ -217,6 +217,7 @@ public class FrgHome extends Fragment implements View.OnClickListener, ShowNewsC
         iv_tabusehelp = (ImageView)content.findViewById(R.id.iv_tabusehelp);
         iv_tabcloudrechargecard=(ImageView)content.findViewById(R.id.iv_tabcloudrechargecard);
         iv_tabsearchstudentcard=(ImageView)content.findViewById(R.id.iv_tabsearchstudentcard);
+        iv_realTimeBus = (ImageView)content.findViewById(R.id.iv_realTimeBus);
         ll_content=(LinearLayout)content.findViewById(R.id.frg_ll_content);
         rl_news = (RecyclerView) content.findViewById(R.id.rl_news);
         rl_news = (RecyclerView) content.findViewById(R.id.rl_news);
@@ -256,6 +257,8 @@ public class FrgHome extends Fragment implements View.OnClickListener, ShowNewsC
                 activity.transAty(ActivityLogin.class);
             }
             //ToastUtils.showToast(activity,getString(R.string.activity_qrcode_function_notopen));
+        }else if(id==R.id.iv_realTimeBus){
+            activity.transAty(ActivityRealTimeBusHome.class);
         }
     }
 

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/tv_route"
+        android:layout_width="wrap_content"
+        android:drawableLeft="@drawable/aty_realtimebusshowbusinfo_itembus"
+        android:drawablePadding="10dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/comon_text_black_normal"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:layout_below="@id/tv_route"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_way"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_route"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/comon_text_black_less"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_nearSta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_route"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/red"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</RelativeLayout>

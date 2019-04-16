@@ -77,7 +77,12 @@
                 <ImageView
                     android:id="@+id/iv_tabcallsus"
                     style="@style/frg_home_tab_style"
-                    android:src="@drawable/frg_home_tabcallsus" />
+                    android:src="@drawable/frg_home_tabcallsus"
+                    android:visibility="gone"/>
+                <ImageView
+                    android:id="@+id/iv_realTimeBus"
+                    style="@style/frg_home_tab_style"
+                    android:src="@drawable/real_time_bus" />
                 <ImageView
                     android:id="@+id/iv_tabsearchstudentcard"
                     style="@style/frg_home_tab_style"

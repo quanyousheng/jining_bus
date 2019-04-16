@@ -1,71 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/ll_background"
         android:layout_width="match_parent"
         android:layout_height="230dp"
-        android:orientation="vertical"
-        android:background="@drawable/aty_realtimebushome_topbackground">
-        <include layout="@layout/layout_titlebar"/>
+        android:background="@drawable/aty_realtimebushome_topbackground"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_titlebar" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <Button
                 android:id="@+id/btn_tosearch"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="300dp"
                 android:layout_height="31dp"
-                android:background="@drawable/shape_aty_realtimebushome_searchbutton"
-                android:text="@string/mypurse_nextbutton_text"
-                android:drawableLeft="@drawable/aty_realtimebushome_searchlogo"
-                android:paddingLeft="7dp"
-                android:gravity="left|center_vertical"
-                android:drawablePadding="8dp"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/common_line_gray_onepx"
-                android:textSize="12dp"
-                style="?android:attr/borderlessButtonStyle"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"/>
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/shape_aty_realtimebushome_searchbutton"
+                android:drawableLeft="@drawable/aty_realtimebushome_searchlogo"
+                android:drawablePadding="8dp"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="7dp"
+                android:text="@string/realtimebushome_search"
+                android:textColor="@color/common_line_gray_onepx"
+                android:textSize="12dp" />
         </RelativeLayout>
 
     </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="43dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/app_theme"
-            android:textSize="12dp"
-            android:text="@string/realtimebushome_nearbysite"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="23dp"/>
+            android:layout_marginLeft="23dp"
+            android:text="@string/realtimebushome_nearbysite"
+            android:textColor="@color/app_theme"
+            android:textSize="12dp" />
+
         <View
             android:layout_width="58dp"
             android:layout_height="2dp"
-            android:background="@color/app_theme"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="17dp"/>
+            android:layout_marginLeft="17dp"
+            android:background="@color/app_theme" />
+
         <TextView
+            android:id="@+id/tv_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12dp"
-            android:text="@string/realtimebushome_refresh"
-            android:textColor="@color/app_theme"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="17dp"
             android:drawableLeft="@drawable/aty_realtimebushome_refresh"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
-            android:clickable="true"/>
+            android:text="@string/realtimebushome_refresh"
+            android:textColor="@color/app_theme"
+            android:textSize="12dp" />
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="13dp"
-        android:background="@color/common_background_gray"/>
+        android:background="@color/common_background_gray" />
+
+    <ExpandableListView
+        android:id="@+id/expand_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
