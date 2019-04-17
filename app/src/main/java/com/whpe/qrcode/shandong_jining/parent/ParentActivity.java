@@ -3,17 +3,21 @@ package com.whpe.qrcode.shandong_jining.parent;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +30,11 @@ import android.widget.TextView;
 import com.android.tu.loadingdialog.LoadingDailog;
 import com.whpe.qrcode.shandong_jining.GYDZApplication;
 import com.whpe.qrcode.shandong_jining.R;
+import com.whpe.qrcode.shandong_jining.activity.ActivityCloudRechargeCard;
+import com.whpe.qrcode.shandong_jining.activity.ActivityLogin;
 import com.whpe.qrcode.shandong_jining.activity.ActivityMain;
+import com.whpe.qrcode.shandong_jining.activity.ActivityMypurse;
+import com.whpe.qrcode.shandong_jining.activity.ActivityPayPurse;
 import com.whpe.qrcode.shandong_jining.activity.ActivityQrcode;
 import com.whpe.qrcode.shandong_jining.bigtools.GlobalConfig;
 import com.whpe.qrcode.shandong_jining.bigtools.RechargeCardError;
@@ -57,7 +65,9 @@ public abstract class ParentActivity extends AppCompatActivity implements LoadQr
     private AlertDialog alertDialog;
     public SharePreferenceLogin sharePreferenceLogin;
     public SharePreferenceParam sharePreferenceParam;
-
+    private boolean isRegistered = false;
+    private NetWorkChangReceiver netWorkChangReceiver;
+    private ParentActivity activity;
 
 
     @Override
@@ -70,15 +80,28 @@ public abstract class ParentActivity extends AppCompatActivity implements LoadQr
         ((GYDZApplication)getApplicationContext()).addAty(this);
         sharePreferenceLogin=new SharePreferenceLogin(this);
         sharePreferenceParam=new SharePreferenceParam(this);
+        activity=this;
         initProgress();
         initDownloadProgress();
         initAlertDialog();
         judgeInitParamisHave();
+        regitNetReciver();
         beforeLayout();
         setActivityLayout();
         onCreatebindView();
         onCreateInitView();
         afterLayout();
+    }
+
+    protected void regitNetReciver(){
+        //注册网络状态监听广播
+        netWorkChangReceiver = new NetWorkChangReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+        filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(netWorkChangReceiver, filter);
+        isRegistered = true;
     }
 
     protected abstract void afterLayout() ;
@@ -97,6 +120,10 @@ public abstract class ParentActivity extends AppCompatActivity implements LoadQr
         super.onDestroy();
         sharePreferenceParam=null;
         sharePreferenceLogin=null;
+        //解绑
+        if (isRegistered) {
+            unregisterReceiver(netWorkChangReceiver);
+        }
     }
 
     @Override
@@ -560,5 +587,42 @@ public abstract class ParentActivity extends AppCompatActivity implements LoadQr
     public void onLoadqrcodeparamFaild(String resmsg) {
         dissmissProgress();
         showExceptionAlertDialog(getString(R.string.app_loading_qrparam_false));
+    }
+
+
+
+    class NetWorkChangReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // 监听网络连接，包括wifi和移动数据的打开和关闭,以及连接上可用的连接都会接到监听
+            if (ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())) {
+                //获取联网状态的NetworkInfo对象
+                NetworkInfo info = intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_INFO);
+                if (info != null) {
+                    //如果当前的网络连接成功并且网络连接可用
+                    if (NetworkInfo.State.CONNECTED == info.getState() && info.isAvailable()) {
+                        if (info.getType() == ConnectivityManager.TYPE_WIFI || info.getType() == ConnectivityManager.TYPE_MOBILE) {
+                            Log.e("YC", "网络连上");
+                        }
+                    } else {
+                        Log.e("YC", "网络断开");
+                        if((activity instanceof ActivityCloudRechargeCard)||activity instanceof ActivityLogin||
+                                activity instanceof ActivityMypurse||activity instanceof ActivityPayPurse||
+                                activity instanceof ActivityQrcode){
+                            if(dialog!=null&&dialog.isShowing()){
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dissmissProgress();
+                                        showExceptionAlertDialog(getString(R.string.app_notnet));
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
