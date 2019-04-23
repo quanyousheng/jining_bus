@@ -31,11 +31,13 @@ import com.android.tu.loadingdialog.LoadingDailog;
 import com.whpe.qrcode.shandong_jining.GYDZApplication;
 import com.whpe.qrcode.shandong_jining.R;
 import com.whpe.qrcode.shandong_jining.activity.ActivityCloudRechargeCard;
+import com.whpe.qrcode.shandong_jining.activity.ActivityConsumrecords;
 import com.whpe.qrcode.shandong_jining.activity.ActivityLogin;
 import com.whpe.qrcode.shandong_jining.activity.ActivityMain;
 import com.whpe.qrcode.shandong_jining.activity.ActivityMypurse;
 import com.whpe.qrcode.shandong_jining.activity.ActivityPayPurse;
 import com.whpe.qrcode.shandong_jining.activity.ActivityQrcode;
+import com.whpe.qrcode.shandong_jining.activity.ActivitySettings;
 import com.whpe.qrcode.shandong_jining.bigtools.GlobalConfig;
 import com.whpe.qrcode.shandong_jining.bigtools.RechargeCardError;
 import com.whpe.qrcode.shandong_jining.bigtools.ToastUtils;
@@ -609,12 +611,14 @@ public abstract class ParentActivity extends AppCompatActivity implements LoadQr
                         Log.e("YC", "网络断开");
                         if((activity instanceof ActivityCloudRechargeCard)||activity instanceof ActivityLogin||
                                 activity instanceof ActivityMypurse||activity instanceof ActivityPayPurse||
-                                activity instanceof ActivityQrcode){
+                                activity instanceof ActivityQrcode||activity instanceof ActivityConsumrecords||
+                                activity instanceof ActivitySettings){
                             if(dialog!=null&&dialog.isShowing()){
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         dissmissProgress();
+                                        //ToastUtils.showToast(activity,getString(R.string.app_notnet));
                                         showExceptionAlertDialog(getString(R.string.app_notnet));
                                     }
                                 });

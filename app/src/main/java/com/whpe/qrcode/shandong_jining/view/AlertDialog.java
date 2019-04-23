@@ -17,6 +17,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.whpe.qrcode.shandong_jining.R;
+import com.whpe.qrcode.shandong_jining.bigtools.ToastUtils;
 
 
 public class AlertDialog {
@@ -232,7 +233,10 @@ public class AlertDialog {
 
 	public void show() {
 		setLayout();
-		dialog.show();
+		try {
+			dialog.show();
+		}catch (Exception e){
+		}
 	}
 	
 	public void dissmiss(){
