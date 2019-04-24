@@ -12,9 +12,12 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.Poi;
+import com.whpe.qrcode.shandong_jining.GYDZApplication;
 import com.whpe.qrcode.shandong_jining.R;
-import com.whpe.qrcode.shandong_jining.bigtools.BDLocation.BDLocationUtils;
-import com.whpe.qrcode.shandong_jining.bigtools.BDLocation.Const;
+import com.whpe.qrcode.shandong_jining.bigtools.BDLocation.LocationService;
 import com.whpe.qrcode.shandong_jining.bigtools.GlobalConfig;
 import com.whpe.qrcode.shandong_jining.bigtools.ToastUtils;
 import com.whpe.qrcode.shandong_jining.net.JsonComomUtils;
@@ -42,52 +45,51 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
     private Activity activity;
     private int parentPos;//记录点击的第几个父条目
     private String nearSta;//最近站点
-    private double longitude, latitude;
+    private double longitude, latitude;//经纬度
+    private LocationService locationService;//百度定位服务
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 100) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //获取经纬度
-                BDLocationUtils bdLocationUtils = new BDLocationUtils(this);
-                bdLocationUtils.doLocation();//开启定位
-                bdLocationUtils.mLocationClient.start();//开始定位
-                longitude = Const.LONGITUDE;
-                latitude = Const.LATITUDE;
-                Log.e(TAG, "百度定位：" + Const.LONGITUDE + "\n" + Const.LATITUDE);
-            } else {
-                Log.e(TAG, "权限没获取！！！" + "\n");
+    /*****
+     * 定位结果回调，重写onReceiveLocation方法
+     */
+    private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            // TODO Auto-generated method stub
+            if (null != location && location.getLocType() != BDLocation.TypeServerError) {
+                longitude = location.getLongitude();
+                latitude = location.getLatitude();
+                showProgress();
+                nearbyStatInfoAction = new NearbyStatInfoAction(ActivityRealTimeBusHome.this, ActivityRealTimeBusHome.this);
+                nearbyStatInfoAction.sendAction(longitude, latitude);
+
+                StringBuffer sb = new StringBuffer(256);
+                sb.append("\nlocType description : ");// *****对应的定位类型说明*****
+                sb.append(location.getLocTypeDescription());
+                sb.append("\nlatitude : ");// 纬度
+                sb.append(latitude);
+                sb.append("\nlontitude : ");// 经度
+                sb.append(longitude);
+                Log.e(TAG, sb.toString());
             }
         }
-    }
 
-    @Override
-    protected void afterLayout() {
-        super.afterLayout();
-        showProgress();
-        nearbyStatInfoAction = new NearbyStatInfoAction(this, this);
-        nearbyStatInfoAction.sendAction(longitude, latitude);
-    }
+    };
 
     @Override
     protected void beforeLayout() {
         super.beforeLayout();
-        if (Build.VERSION.SDK_INT >= 23) {
-            //如果用户并没有同意该权限
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                //申请权限
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
-            } else {
-                //获取经纬度
-                BDLocationUtils bdLocationUtils = new BDLocationUtils(this);
-                bdLocationUtils.doLocation();//开启定位
-                bdLocationUtils.mLocationClient.start();//开始定位
-                longitude = Const.LONGITUDE;
-                latitude = Const.LATITUDE;
-                Log.e(TAG, "百度定位：" + Const.LONGITUDE + "\n" + Const.LATITUDE);
-            }
+      // -----------location config ------------
+        locationService = ((GYDZApplication) getApplication()).locationService;
+        locationService.registerListener(mListener);
+        //注册监听
+        int type = getIntent().getIntExtra("from", 0);
+        if (type == 0) {
+            locationService.setLocationOption(locationService.getDefaultLocationClientOption());
+        } else if (type == 1) {
+            locationService.setLocationOption(locationService.getOption());
         }
+        locationService.start();// 定位SDK
     }
 
     @Override
@@ -112,12 +114,12 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
         btn_tosearch = findViewById(R.id.btn_tosearch);
         expand_list = findViewById(R.id.expand_list);
         tv_refresh = findViewById(R.id.tv_refresh);
-        myAdapter = new MyExtandableListViewAdapter(this,parentList, childMap);
+        myAdapter = new MyExtandableListViewAdapter(this, parentList, childMap);
         expand_list.setAdapter(myAdapter);
         expand_list.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-               //如果分组被打开 直接关闭
+                //如果分组被打开 直接关闭
                 if (expand_list.isGroupExpanded(groupPosition)) {
                     expand_list.collapseGroup(groupPosition);
                 } else {
@@ -146,10 +148,8 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
         int id = v.getId();
         switch (id) {
             case R.id.tv_refresh:
-                showProgress();
-                longitude = Const.LONGITUDE;
-                latitude = Const.LATITUDE;
-                nearbyStatInfoAction.sendAction(longitude, latitude);
+                locationService.stop();
+                locationService.start();
                 break;
             case R.id.btn_tosearch:
                 Bundle bundle = new Bundle();
@@ -157,6 +157,17 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
                 transAty(ActivityRealTimeBusSearch.class, bundle);
                 break;
         }
+    }
+
+    /***
+     * Stop location service
+     */
+    @Override
+    protected void onStop() {
+        // TODO Auto-generated method stub
+        locationService.unregisterListener(mListener); //注销掉监听
+        locationService.stop(); //停止定位服务
+        super.onStop();
     }
 
     @Override
@@ -167,15 +178,27 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
             if (rescode.equals(GlobalConfig.RESCODE_SUCCESS)) {
                 StationInfoList stationInfoList = new StationInfoList();
                 stationInfoList = (StationInfoList) JsonComomUtils.parseAllInfo(getinfo.get(2), stationInfoList);
-               if (stationInfoList.getList().size()>0){
-                   nearSta = stationInfoList.getList().get(0).getStationName();
-                   parentList.addAll(stationInfoList.getList());
-                   myAdapter.notifyDataSetChanged();
-               }
+                if (stationInfoList.getList() != null && stationInfoList.getList().size() > 0) {
+                    nearSta = stationInfoList.getList().get(0).getStationName();
+                    parentList.addAll(stationInfoList.getList());
+                    myAdapter.notifyDataSetChanged();
+                } else {
+                    showAlertDialog("当前位置不在济宁,切换到默认位置济宁市政府", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showProgress();
+                            // 设置一个默认地址市人才大厦
+                            longitude = 116.5937182579;
+                            latitude = 35.4207690942;
+                            nearbyStatInfoAction.sendAction(longitude, latitude);
+                        }
+                    });
+                }
             } else {
                 checkAllUpadate(rescode, getinfo);
             }
         } catch (Exception e) {
+            Log.e("errorExce", e.toString());
             showExceptionAlertDialog();
         }
     }

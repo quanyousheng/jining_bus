@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.whpe.qrcode.shandong_jining.R;
+import com.whpe.qrcode.shandong_jining.bigtools.ACache;
 import com.whpe.qrcode.shandong_jining.bigtools.GlobalConfig;
 import com.whpe.qrcode.shandong_jining.bigtools.ToastUtils;
 import com.whpe.qrcode.shandong_jining.net.JsonComomUtils;
@@ -27,7 +28,7 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
     private EditText et_input;
     private ListView lv_history;
     private SearchRouteAdapter adapter;
-    private List<RouteStationInfoList.RouteStationInfo.SegmentListBean> segmentList = new ArrayList<>();
+    private ArrayList<RouteStationInfoList.RouteStationInfo.SegmentListBean> segmentList = new ArrayList<>();
     private String nearSta;
     private int route;
 
@@ -39,7 +40,7 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
     @Override
     protected void beforeLayout() {
         super.beforeLayout();
-        nearSta = getIntent().getExtras().getString("nearSta","暂无数据");
+        nearSta = getIntent().getExtras().getString("nearSta", "暂无数据");
     }
 
     @Override
@@ -92,6 +93,7 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
                 if (TextUtils.isEmpty(et_input.getText().toString().trim())) {
                     ToastUtils.showToast(this, "请输入线路再查询");
                 } else {
+                    segmentList.clear();
                     route = Integer.parseInt(et_input.getText().toString().trim());
                     showProgress();
                     RouteStationInfoAction routeStationInfoAction = new RouteStationInfoAction(this, this);
@@ -116,13 +118,13 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
             if (rescode.equals(GlobalConfig.RESCODE_SUCCESS)) {
                 RouteStationInfoList routeStationInfoList = new RouteStationInfoList();
                 routeStationInfoList = (RouteStationInfoList) JsonComomUtils.parseAllInfo(getinfo.get(2), routeStationInfoList);
-               if (routeStationInfoList.getDataList().size()==0){
-                   ToastUtils.showToast(ActivityRealTimeBusSearch.this,"未查询到该线路信息");
-               }else {
-                   segmentList.addAll(routeStationInfoList.getDataList().get(0).getSegmentList());
-                   adapter = new SearchRouteAdapter(segmentList, nearSta,route);
-                   lv_history.setAdapter(adapter);
-               }
+                if (routeStationInfoList.getDataList().size() == 0) {
+                    ToastUtils.showToast(ActivityRealTimeBusSearch.this, "未查询到该线路信息");
+                } else {
+                    segmentList.addAll(routeStationInfoList.getDataList().get(0).getSegmentList());
+                    adapter = new SearchRouteAdapter(segmentList, nearSta, route);
+                    lv_history.setAdapter(adapter);
+                }
             } else {
                 checkAllUpadate(rescode, getinfo);
             }
@@ -136,4 +138,11 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
         dissmissProgress();
         ToastUtils.showToast(this, resmsg);
     }
+
+//    @Override
+//    public void titleback(View v) {
+//        if (segmentList.size() > 0) {
+//            ACache.get(this).put("dataList",segmentList);
+//        }
+//    }
 }
