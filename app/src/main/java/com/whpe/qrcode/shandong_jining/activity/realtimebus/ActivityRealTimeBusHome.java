@@ -77,9 +77,9 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
     };
 
     @Override
-    protected void beforeLayout() {
-        super.beforeLayout();
-      // -----------location config ------------
+    protected void onStart() {
+        super.onStart();
+        // -----------location config ------------
         locationService = ((GYDZApplication) getApplication()).locationService;
         locationService.registerListener(mListener);
         //注册监听
@@ -148,7 +148,6 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
         int id = v.getId();
         switch (id) {
             case R.id.tv_refresh:
-                locationService.stop();
                 locationService.start();
                 break;
             case R.id.btn_tosearch:
@@ -172,6 +171,7 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
 
     @Override
     public void onQuerySuccess(ArrayList<String> getinfo) {
+        locationService.stop(); //停止定位服务
         dissmissProgress();
         try {
             String rescode = getinfo.get(0);
