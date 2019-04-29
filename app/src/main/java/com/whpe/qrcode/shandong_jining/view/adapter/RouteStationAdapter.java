@@ -58,7 +58,12 @@ public class RouteStationAdapter extends BaseAdapter {
             viewHolder = (MyViewHolder) convertView.getTag();
         }
         RealTimeBusBean busBean=realTimeBusBeans.get(position);
-        viewHolder.tv_site.setText(busBean.getSite());
+        String staName = busBean.getSite();
+        if (staName.contains("(上行)") || staName.contains("(下行)")
+                || staName.contains("（上行）") || staName.contains("（下行）")) {
+            staName=staName.substring(0, staName.length() - 4);
+        }
+        viewHolder.tv_site.setText(staName);
         if (busBean.isHavebus()) {
             viewHolder.iv_sitecircle.setBackground(MyDrawableUtils.getDrawble(context, R.drawable.aty_realtimebusshowbusinfo_itemsiteget));
             viewHolder.iv_bus.setVisibility(View.VISIBLE);

@@ -51,9 +51,19 @@ public class SearchRouteAdapter extends BaseAdapter {
             viewHolder = (MyViewHolder) convertView.getTag();
         }
         RouteStationInfoList.RouteStationInfo.SegmentListBean busBean = segmentList.get(position);
-        viewHolder.tv_route.setText(route+"路");
+        viewHolder.tv_route.setText(route + "路");
         List<RouteStationInfoList.RouteStationInfo.SegmentListBean.StationListBean> stationListBean = busBean.getStationList();
-        viewHolder.tv_way.setText(stationListBean.get(0).getStationName() + " - " + stationListBean.get(stationListBean.size() - 1).getStationName());
+        String staStartName = stationListBean.get(0).getStationName();
+        String staEndName = stationListBean.get(stationListBean.size() - 1).getStationName();
+        if (staStartName.contains("(上行)") || staStartName.contains("(下行)")
+                || staStartName.contains("（上行）") || staStartName.contains("（下行）")) {
+            staStartName=staStartName.substring(0, staStartName.length() - 4);
+        }
+        if (staEndName.contains("(上行)") || staEndName.contains("(下行)")
+                || staEndName.contains("（上行）") || staEndName.contains("（下行）")) {
+            staEndName=staEndName.substring(0, staEndName.length() - 4);
+        }
+        viewHolder.tv_way.setText(staStartName + " - " + staEndName);
         viewHolder.tv_nearSta.setText("最近站点：" + nearSta);
 
         return convertView;

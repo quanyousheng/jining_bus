@@ -13,6 +13,7 @@ import com.whpe.qrcode.shandong_jining.net.action.QueryByStationIDAction;
 import com.whpe.qrcode.shandong_jining.net.getbean.StationInfoList;
 import com.whpe.qrcode.shandong_jining.net.getbean.StationRealTimeInfoList;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class MyExtandableListViewAdapter extends BaseExpandableListAdapter {
     public List<StationInfoList.StationInfo> groupList;
     public Map<Integer, List<StationRealTimeInfoList.StationRealTimeInfo>> childMap;
 
-    public MyExtandableListViewAdapter(Context context,List<StationInfoList.StationInfo> groupList, Map<Integer, List<StationRealTimeInfoList.StationRealTimeInfo>> childMap) {
+    public MyExtandableListViewAdapter(Context context, List<StationInfoList.StationInfo> groupList, Map<Integer, List<StationRealTimeInfoList.StationRealTimeInfo>> childMap) {
         this.context = context;
         this.groupList = groupList;
         this.childMap = childMap;
@@ -90,10 +91,20 @@ public class MyExtandableListViewAdapter extends BaseExpandableListAdapter {
         } else {
             groupViewHolder = (GroupViewHolder) convertView.getTag();
         }
-        if (groupPosition == 0) {
-            groupViewHolder.tvSite.setText(groupList.get(groupPosition).getStationName() + " （离我最近）");
+        String staName = groupList.get(groupPosition).getStationName();
+        if (staName.contains("(上行)") || staName.contains("(下行)")
+                || staName.contains("（上行）") || staName.contains("（下行）")) {
+            if (groupPosition == 0) {
+                groupViewHolder.tvSite.setText(staName.substring(0, staName.length() - 4) + " （离我最近）");
+            } else {
+                groupViewHolder.tvSite.setText(staName.substring(0, staName.length() - 4));
+            }
         } else {
-            groupViewHolder.tvSite.setText(groupList.get(groupPosition).getStationName());
+            if (groupPosition == 0) {
+                groupViewHolder.tvSite.setText(staName + " （离我最近）");
+            } else {
+                groupViewHolder.tvSite.setText(staName);
+            }
         }
         String distance = String.valueOf(groupList.get(groupPosition).getDistance());
         if (distance.contains(".")) {
@@ -102,9 +113,9 @@ public class MyExtandableListViewAdapter extends BaseExpandableListAdapter {
         } else {
             groupViewHolder.tvMile.setText(distance + "公里");
         }
-        if (isExpanded){
+        if (isExpanded) {
             groupViewHolder.iv_arrow.setImageDrawable(context.getResources().getDrawable(R.drawable.arrow_down));
-        }else {
+        } else {
             groupViewHolder.iv_arrow.setImageDrawable(context.getResources().getDrawable(R.drawable.arrow_right));
         }
         return convertView;
@@ -138,7 +149,13 @@ public class MyExtandableListViewAdapter extends BaseExpandableListAdapter {
         childViewHolder.tv_route.setText(childMap.get(groupPosition).get(childPosition).getRouteName());
         List<StationRealTimeInfoList.StationRealTimeInfo.RealtimeInfoListBean> realTimeInfoList = childMap.get(groupPosition).get(childPosition).getRealtimeInfoList();
         if (realTimeInfoList != null && realTimeInfoList.size() > 0) {
-            childViewHolder.tv_next.setText("下一站：" + realTimeInfoList.get(0).getArriveStaName());
+            String staName = realTimeInfoList.get(0).getArriveStaName();
+            if (staName.contains("(上行)") || staName.contains("(下行)")
+                    || staName.contains("（上行）") || staName.contains("（下行）")) {
+                childViewHolder.tv_next.setText("下一站：" + realTimeInfoList.get(0).getArriveStaName().substring(0, staName.length() - 4));
+            } else {
+                childViewHolder.tv_next.setText("下一站：" + realTimeInfoList.get(0).getArriveStaName());
+            }
             childViewHolder.tv_time.setText(realTimeInfoList.get(0).getRunTime() + "分钟后");
         } else {
             childViewHolder.tv_next.setText("");

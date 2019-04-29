@@ -152,7 +152,17 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
                         stationList.add(new RealTimeBusBean(stationListBean.getStationName(),stationListBean.getStationID(), stationIdList.contains(stationListBean.getStationID()) ? true : false));
                     }
                 }
-                tv_way.setText(stationList.get(0).getSite() + " — " + stationList.get(stationList.size() - 1).getSite());
+                String staStartName = stationList.get(0).getSite();
+                String staEndName = stationList.get(stationList.size() - 1).getSite();
+                if (staStartName.contains("(上行)") || staStartName.contains("(下行)")
+                        || staStartName.contains("（上行）") || staStartName.contains("（下行）")) {
+                    staStartName=staStartName.substring(0, staStartName.length() - 4);
+                }
+                if (staEndName.contains("(上行)") || staEndName.contains("(下行)")
+                        || staEndName.contains("（上行）") || staEndName.contains("（下行）")) {
+                    staEndName=staEndName.substring(0, staEndName.length() - 4);
+                }
+                tv_way.setText(staStartName + " — " + staEndName);
                 adapter.notifyDataSetChanged();
             } else {
                 checkAllUpadate(rescode, getinfo);

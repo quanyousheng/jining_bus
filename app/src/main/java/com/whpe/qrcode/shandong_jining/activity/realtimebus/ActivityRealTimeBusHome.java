@@ -1,10 +1,13 @@
 package com.whpe.qrcode.shandong_jining.activity.realtimebus;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
@@ -47,6 +50,18 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
     private String nearSta;//最近站点
     private double longitude, latitude;//经纬度
     private LocationService locationService;//百度定位服务
+    private boolean showDialog = false;//显示弹出提示框
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 0) {
+                locationService.start();
+            }
+        }
+    };
+
 
     /*****
      * 定位结果回调，重写onReceiveLocation方法
@@ -148,7 +163,8 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
         int id = v.getId();
         switch (id) {
             case R.id.tv_refresh:
-                locationService.start();
+                showProgress();
+                nearbyStatInfoAction.sendAction(longitude, latitude);
                 break;
             case R.id.btn_tosearch:
                 Bundle bundle = new Bundle();
@@ -171,7 +187,6 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
 
     @Override
     public void onQuerySuccess(ArrayList<String> getinfo) {
-        locationService.stop(); //停止定位服务
         dissmissProgress();
         try {
             String rescode = getinfo.get(0);
@@ -180,19 +195,27 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
                 stationInfoList = (StationInfoList) JsonComomUtils.parseAllInfo(getinfo.get(2), stationInfoList);
                 if (stationInfoList.getList() != null && stationInfoList.getList().size() > 0) {
                     nearSta = stationInfoList.getList().get(0).getStationName();
+                    if (nearSta.contains("(上行)") || nearSta.contains("(下行)")
+                            || nearSta.contains("（上行）") || nearSta.contains("（下行）")) {
+                        nearSta = nearSta.substring(0, nearSta.length() - 4);
+                    }
                     parentList.addAll(stationInfoList.getList());
                     myAdapter.notifyDataSetChanged();
                 } else {
-                    showAlertDialog("当前位置不在济宁,切换到默认位置济宁市政府", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showProgress();
-                            // 设置一个默认地址市人才大厦
-                            longitude = 116.5937182579;
-                            latitude = 35.4207690942;
-                            nearbyStatInfoAction.sendAction(longitude, latitude);
-                        }
-                    });
+//                   对话框只显示一次
+                    if (!showDialog) {
+                        showAlertDialog("当前位置不在济宁,切换到默认位置济宁市政府", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                showDialog = true;
+                                showProgress();
+                                // 设置一个默认地址市人才大厦
+                                longitude = 116.5937182579;
+                                latitude = 35.4207690942;
+                                nearbyStatInfoAction.sendAction(longitude, latitude);
+                            }
+                        });
+                    }
                 }
             } else {
                 checkAllUpadate(rescode, getinfo);
