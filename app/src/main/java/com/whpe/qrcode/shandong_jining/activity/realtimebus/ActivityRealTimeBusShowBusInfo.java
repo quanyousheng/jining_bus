@@ -40,6 +40,7 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
     private BusRealTimeInfoAction realTimeInfoAction;
     private static final int TIMER = 999;
     private static boolean flag;
+    private static boolean onlyOnce = true;
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -147,8 +148,11 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
                 }
                 realTimeInfoAction = new BusRealTimeInfoAction(this, this);
                 realTimeInfoAction.sendAction(routeId, segmentId);
-//                每隔30s查询一次
-                mHandler.sendEmptyMessageDelayed(TIMER, 30000);
+
+                if (onlyOnce) {
+                    onlyOnce = false;
+                    mHandler.sendEmptyMessageDelayed(TIMER, 30000);
+                }
             } else {
                 checkAllUpadate(rescode, getinfo);
             }

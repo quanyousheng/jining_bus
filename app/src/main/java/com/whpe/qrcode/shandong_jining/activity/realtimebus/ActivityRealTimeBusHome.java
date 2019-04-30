@@ -48,9 +48,11 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
     private Activity activity;
     private int parentPos;//记录点击的第几个父条目
     private String nearSta;//最近站点
-    private double longitude, latitude;//经纬度
+    private static final double longitude = 116.5938885585, latitude = 35.4209607038;//默认市政府地址
+    private double sucLongitude = 0, sucLatitude = 0;//定位成功的经纬度
     private LocationService locationService;//百度定位服务
-    private boolean showDialog = false;//显示弹出提示框
+    private boolean showLocationFailDialog = false;//显示定位失败弹出提示框
+    private boolean showNoDataDialog = false;//显示不在济宁弹出提示框
 
     /*****
      * 定位结果回调，重写onReceiveLocation方法
@@ -61,11 +63,11 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
         public void onReceiveLocation(BDLocation location) {
             // TODO Auto-generated method stub
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
-                longitude = location.getLongitude();
-                latitude = location.getLatitude();
+                sucLongitude = location.getLongitude();
+                sucLatitude = location.getLatitude();
                 showProgress();
                 nearbyStatInfoAction = new NearbyStatInfoAction(ActivityRealTimeBusHome.this, ActivityRealTimeBusHome.this);
-                nearbyStatInfoAction.sendAction(longitude, latitude);
+                nearbyStatInfoAction.sendAction(sucLongitude, sucLatitude);
 
                 StringBuffer sb = new StringBuffer(256);
                 sb.append("\nlocType description : ");// *****对应的定位类型说明*****
@@ -75,6 +77,23 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
                 sb.append("\nlontitude : ");// 经度
                 sb.append(longitude);
                 Log.e(TAG, sb.toString());
+            } else {
+                if (sucLatitude != 0 && sucLongitude != 0) {
+//                    showProgress();
+                    nearbyStatInfoAction.sendAction(sucLongitude, sucLatitude);
+                } else {
+                    //         对话框只显示一次
+                    if (!showLocationFailDialog) {
+                        showAlertDialog("定位失败,切换到默认位置济宁市政府", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                showLocationFailDialog = true;
+                                showProgress();
+                                nearbyStatInfoAction.sendAction(longitude, latitude);
+                            }
+                        });
+                    }
+                }
             }
         }
 
@@ -206,16 +225,13 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
                     parentList.addAll(dataList);
                     myAdapter.notifyDataSetChanged();
                 } else {
-//                   对话框只显示一次
-                    if (!showDialog) {
+  //                对话框只显示一次
+                    if (!showNoDataDialog) {
                         showAlertDialog("当前位置不在济宁,切换到默认位置济宁市政府", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                showDialog = true;
+                                showNoDataDialog = true;
                                 showProgress();
-                                // 设置一个默认地址市人才大厦
-                                longitude = 116.5937182579;
-                                latitude = 35.4207690942;
                                 nearbyStatInfoAction.sendAction(longitude, latitude);
                             }
                         });
