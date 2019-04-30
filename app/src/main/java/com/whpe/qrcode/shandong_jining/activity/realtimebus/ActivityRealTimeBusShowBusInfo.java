@@ -1,5 +1,9 @@
 package com.whpe.qrcode.shandong_jining.activity.realtimebus;
 
+import android.annotation.SuppressLint;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -23,7 +27,7 @@ import java.util.List;
 
 public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity implements View.OnClickListener, RouteStationInfoAction.Inter_RouteStationInfo, BusRealTimeInfoAction.Inter_RealTimeInfo {
     private TextView tv_routeName, tv_way, tv_time, tv_price;
-    private FrameLayout frame_refresh,frame_changeDirection;
+    private FrameLayout frame_refresh, frame_changeDirection;
     private ListView lv_busandsiteinfo;
     private RouteStationAdapter adapter;
     private int routeId, segmentId;//segmentId代表单程ID
@@ -34,12 +38,33 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
     private boolean isChangeDir;//是否换方向
     private RouteStationInfoAction routeStationInfoAction;
     private BusRealTimeInfoAction realTimeInfoAction;
+    private static final int TIMER = 999;
+    private static boolean flag;
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case TIMER:
+                    showProgress();
+                    realTimeInfoAction.sendAction(routeId, segmentId);
+                    if (flag) {
+                        mHandler.sendEmptyMessageDelayed(TIMER, 30000);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
-    protected void afterLayout() {
-        super.afterLayout();
+    protected void onStart() {
+        super.onStart();
+        flag = true;
         showProgress();
-        routeStationInfoAction = new RouteStationInfoAction(this, this);
         routeStationInfoAction.sendAction(routeId);
     }
 
@@ -48,8 +73,16 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
         super.beforeLayout();
         setMyTitleColor(R.color.white);
         routeId = getIntent().getExtras().getInt("RouteID");
-        stationId=getIntent().getExtras().getString("StationID");
-        isChangeDir=getIntent().getExtras().getBoolean("isChangeDir",false);
+        stationId = getIntent().getExtras().getString("StationID");
+        isChangeDir = getIntent().getExtras().getBoolean("isChangeDir", false);
+        routeStationInfoAction = new RouteStationInfoAction(this, this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        flag = false;
+        mHandler.removeMessages(TIMER);
     }
 
     @Override
@@ -68,12 +101,12 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
         super.onCreatebindView();
         lv_busandsiteinfo = findViewById(R.id.lv_busandsiteinfo);
         frame_changeDirection = findViewById(R.id.frame_changeDirection);
-        frame_refresh=findViewById(R.id.frame_refresh);
+        frame_refresh = findViewById(R.id.frame_refresh);
         tv_routeName = findViewById(R.id.tv_routeName);
         tv_way = findViewById(R.id.tv_way);
         tv_time = findViewById(R.id.tv_time);
         tv_price = findViewById(R.id.tv_price);
-        adapter = new RouteStationAdapter(this,stationList,stationId);
+        adapter = new RouteStationAdapter(this, stationList, stationId);
         lv_busandsiteinfo.setAdapter(adapter);
         frame_changeDirection.setOnClickListener(this);
         frame_refresh.setOnClickListener(this);
@@ -90,7 +123,7 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
                 break;
             case R.id.frame_refresh:
                 showProgress();
-                realTimeInfoAction.sendAction(routeId,segmentId);
+                realTimeInfoAction.sendAction(routeId, segmentId);
                 break;
         }
     }
@@ -105,17 +138,22 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
                 setTitle(routeStationInfoList.getDataList().get(0).getRouteName());
                 tv_routeName.setText(routeStationInfoList.getDataList().get(0).getRouteName());
                 segmentList = routeStationInfoList.getDataList().get(0).getSegmentList();
-                if (!isChangeDir) {
-                    segmentId = segmentList.get(0).getSegmentID();
-                } else {
-                    segmentId = segmentList.get(1).getSegmentID();
+                if (segmentList != null) {
+                    if (!isChangeDir) {
+                        segmentId = segmentList.get(0).getSegmentID();
+                    } else {
+                        segmentId = segmentList.get(1).getSegmentID();
+                    }
                 }
                 realTimeInfoAction = new BusRealTimeInfoAction(this, this);
                 realTimeInfoAction.sendAction(routeId, segmentId);
+//                每隔30s查询一次
+                mHandler.sendEmptyMessageDelayed(TIMER, 30000);
             } else {
                 checkAllUpadate(rescode, getinfo);
             }
         } catch (Exception e) {
+            Log.e("EEE", e.toString());
             showExceptionAlertDialog();
         }
     }
@@ -136,38 +174,43 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
                 busRealTimeInfo = (BusRealTimeInfo) JsonComomUtils.parseAllInfo(getinfo.get(2), busRealTimeInfo);
                 stationIdList.clear();
                 stationList.clear();
-                for (BusRealTimeInfo.BusPosListBean busPosListBean : busRealTimeInfo.getBusPosList()) {
-                    stationIdList.add(busPosListBean.getStationID());
+                if (busRealTimeInfo.getBusPosList() != null) {
+                    for (BusRealTimeInfo.BusPosListBean busPosListBean : busRealTimeInfo.getBusPosList()) {
+                        stationIdList.add(busPosListBean.getStationID());
+                    }
                 }
                 if (!isChangeDir) {
                     tv_time.setText("时间：" + segmentList.get(0).getFirtLastShiftInfo().substring(4));
                     tv_price.setText("票价：" + segmentList.get(0).getRoutePrice() + "元");
-                    for (RouteStationInfoList.RouteStationInfo.SegmentListBean.StationListBean stationListBean : segmentList.get(0).getStationList()) {
-                        stationList.add(new RealTimeBusBean(stationListBean.getStationName(),stationListBean.getStationID(), stationIdList.contains(stationListBean.getStationID()) ? true : false));
-                    }
+                    if (segmentList != null && segmentList.get(0).getStationList() != null)
+                        for (RouteStationInfoList.RouteStationInfo.SegmentListBean.StationListBean stationListBean : segmentList.get(0).getStationList()) {
+                            stationList.add(new RealTimeBusBean(stationListBean.getStationName(), stationListBean.getStationID(), stationIdList.contains(stationListBean.getStationID()) ? true : false));
+                        }
                 } else {
                     tv_time.setText("时间：" + segmentList.get(1).getFirtLastShiftInfo().substring(4));
                     tv_price.setText("票价：" + segmentList.get(1).getRoutePrice() + "元");
-                    for (RouteStationInfoList.RouteStationInfo.SegmentListBean.StationListBean stationListBean : segmentList.get(1).getStationList()) {
-                        stationList.add(new RealTimeBusBean(stationListBean.getStationName(),stationListBean.getStationID(), stationIdList.contains(stationListBean.getStationID()) ? true : false));
-                    }
+                    if (segmentList != null && segmentList.get(1).getStationList() != null)
+                        for (RouteStationInfoList.RouteStationInfo.SegmentListBean.StationListBean stationListBean : segmentList.get(1).getStationList()) {
+                            stationList.add(new RealTimeBusBean(stationListBean.getStationName(), stationListBean.getStationID(), stationIdList.contains(stationListBean.getStationID()) ? true : false));
+                        }
                 }
                 String staStartName = stationList.get(0).getSite();
                 String staEndName = stationList.get(stationList.size() - 1).getSite();
-                if (staStartName.contains("(上行)") || staStartName.contains("(下行)")
-                        || staStartName.contains("（上行）") || staStartName.contains("（下行）")) {
-                    staStartName=staStartName.substring(0, staStartName.length() - 4);
-                }
-                if (staEndName.contains("(上行)") || staEndName.contains("(下行)")
-                        || staEndName.contains("（上行）") || staEndName.contains("（下行）")) {
-                    staEndName=staEndName.substring(0, staEndName.length() - 4);
-                }
+//                if (staStartName.contains("(上行)") || staStartName.contains("(下行)")
+//                        || staStartName.contains("（上行）") || staStartName.contains("（下行）")) {
+//                    staStartName = staStartName.substring(0, staStartName.length() - 4);
+//                }
+//                if (staEndName.contains("(上行)") || staEndName.contains("(下行)")
+//                        || staEndName.contains("（上行）") || staEndName.contains("（下行）")) {
+//                    staEndName = staEndName.substring(0, staEndName.length() - 4);
+//                }
                 tv_way.setText(staStartName + " — " + staEndName);
                 adapter.notifyDataSetChanged();
             } else {
                 checkAllUpadate(rescode, getinfo);
             }
         } catch (Exception e) {
+            Log.e("EEE", e.toString());
             showExceptionAlertDialog();
         }
     }

@@ -81,7 +81,6 @@ public class BusRealTimeInfoAction {
             }
         }).start();
 
-
     }
 
     public interface Inter_RealTimeInfo {

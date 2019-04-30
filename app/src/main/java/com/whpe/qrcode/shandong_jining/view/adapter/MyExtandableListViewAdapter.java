@@ -92,26 +92,20 @@ public class MyExtandableListViewAdapter extends BaseExpandableListAdapter {
             groupViewHolder = (GroupViewHolder) convertView.getTag();
         }
         String staName = groupList.get(groupPosition).getStationName();
-        if (staName.contains("(上行)") || staName.contains("(下行)")
-                || staName.contains("（上行）") || staName.contains("（下行）")) {
-            if (groupPosition == 0) {
-                groupViewHolder.tvSite.setText(staName.substring(0, staName.length() - 4) + " （离我最近）");
-            } else {
-                groupViewHolder.tvSite.setText(staName.substring(0, staName.length() - 4));
-            }
-        } else {
-            if (groupPosition == 0) {
-                groupViewHolder.tvSite.setText(staName + " （离我最近）");
-            } else {
-                groupViewHolder.tvSite.setText(staName);
-            }
+//        if (staName.contains("(上行)") || staName.contains("(下行)")
+//                || staName.contains("（上行）") || staName.contains("（下行）")) {
+//            staName = staName.substring(0, staName.length() - 4);
+//        }
+        if (groupPosition == 0) {
+            staName = staName + " （离我最近）";
         }
+        groupViewHolder.tvSite.setText(staName);
         String distance = String.valueOf(groupList.get(groupPosition).getDistance());
         if (distance.contains(".")) {
             //      距离保留到小数点后两位
-            groupViewHolder.tvMile.setText(distance.substring(0, distance.indexOf(".") + 2) + "公里");
+            groupViewHolder.tvMile.setText(distance.substring(0, distance.indexOf(".") + 2) + "米");
         } else {
-            groupViewHolder.tvMile.setText(distance + "公里");
+            groupViewHolder.tvMile.setText(distance + "米");
         }
         if (isExpanded) {
             groupViewHolder.iv_arrow.setImageDrawable(context.getResources().getDrawable(R.drawable.arrow_down));

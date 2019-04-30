@@ -30,6 +30,12 @@ public class StationInfoList {
         private String StationID;
         private double Distance;
 
+        public StationInfo(String stationName, String stationID, double distance) {
+            StationName = stationName;
+            StationID = stationID;
+            Distance = distance;
+        }
+
         public String getStationMemo() {
             return StationMemo;
         }

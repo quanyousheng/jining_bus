@@ -51,17 +51,6 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
     private double longitude, latitude;//经纬度
     private LocationService locationService;//百度定位服务
     private boolean showDialog = false;//显示弹出提示框
-    @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 0) {
-                locationService.start();
-            }
-        }
-    };
-
 
     /*****
      * 定位结果回调，重写onReceiveLocation方法
@@ -193,13 +182,28 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
             if (rescode.equals(GlobalConfig.RESCODE_SUCCESS)) {
                 StationInfoList stationInfoList = new StationInfoList();
                 stationInfoList = (StationInfoList) JsonComomUtils.parseAllInfo(getinfo.get(2), stationInfoList);
-                if (stationInfoList.getList() != null && stationInfoList.getList().size() > 0) {
-                    nearSta = stationInfoList.getList().get(0).getStationName();
-                    if (nearSta.contains("(上行)") || nearSta.contains("(下行)")
-                            || nearSta.contains("（上行）") || nearSta.contains("（下行）")) {
-                        nearSta = nearSta.substring(0, nearSta.length() - 4);
+                List<StationInfoList.StationInfo> dataList = stationInfoList.getList();
+                if (dataList != null && dataList.size() > 0) {
+                    for (StationInfoList.StationInfo stationInfo : dataList) {
+                        String name = stationInfo.getStationName();
+                        if (name.contains("(上行)") || name.contains("(下行)")
+                                || name.contains("（上行）") || name.contains("（下行）")) {
+                            name = name.substring(0, name.length() - 4);
+                        }
+                        stationInfo.setStationName(name);
                     }
-                    parentList.addAll(stationInfoList.getList());
+
+                    for (int i = 0; i < dataList.size(); i++) {
+                        String name = dataList.get(i).getStationName();
+                        for (int j = i + 1; j < dataList.size(); j++) {
+                            if (name.equals(dataList.get(j).getStationName())) {
+                                dataList.remove(dataList.get(j));
+                            }
+                        }
+                    }
+                    nearSta = dataList.get(0).getStationName();
+                    parentList.clear();
+                    parentList.addAll(dataList);
                     myAdapter.notifyDataSetChanged();
                 } else {
 //                   对话框只显示一次
@@ -221,7 +225,7 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
                 checkAllUpadate(rescode, getinfo);
             }
         } catch (Exception e) {
-            Log.e("errorExce", e.toString());
+            Log.e("EEE", e.toString());
             showExceptionAlertDialog();
         }
     }
@@ -246,6 +250,7 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
                 checkAllUpadate(rescode, getinfo);
             }
         } catch (Exception e) {
+            Log.e("EEE", e.toString());
             showExceptionAlertDialog();
         }
         expand_list.expandGroup(parentPos, true);

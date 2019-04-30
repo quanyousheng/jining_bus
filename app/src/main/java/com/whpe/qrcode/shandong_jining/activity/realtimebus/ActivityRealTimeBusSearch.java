@@ -2,6 +2,7 @@ package com.whpe.qrcode.shandong_jining.activity.realtimebus;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -129,6 +130,7 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
                 checkAllUpadate(rescode, getinfo);
             }
         } catch (Exception e) {
+            Log.e("EEE", e.toString());
             showExceptionAlertDialog();
         }
     }
