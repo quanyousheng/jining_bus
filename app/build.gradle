@@ -7,7 +7,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0.6"
+        versionName "1.0.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     //签名
@@ -15,7 +15,7 @@ android {
         debug {
         }
         release {
-            storeFile file("E:\\AndroidStudioProjects\\key\\apk_lic")
+            storeFile file("/Users/andy/Downloads/apk_lic")
             storePassword "tomyang123"
             keyAlias "apk_lic"
             keyPassword "tomyang123"

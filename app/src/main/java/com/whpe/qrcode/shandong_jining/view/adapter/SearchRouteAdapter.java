@@ -15,6 +15,7 @@ public class SearchRouteAdapter extends BaseAdapter {
     private List<RouteStationInfoList.RouteStationInfo.SegmentListBean> segmentList;
     private String nearSta;
     private int route;
+    private Integer[] routesId = {801, 802, 803, 804, 805, 806, 807};
 
     public SearchRouteAdapter(List<RouteStationInfoList.RouteStationInfo.SegmentListBean> segmentList, String nearSta, int route) {
         this.segmentList = segmentList;
@@ -51,17 +52,25 @@ public class SearchRouteAdapter extends BaseAdapter {
             viewHolder = (MyViewHolder) convertView.getTag();
         }
         RouteStationInfoList.RouteStationInfo.SegmentListBean busBean = segmentList.get(position);
-        viewHolder.tv_route.setText(route + "路");
+        String routeName = route + "路";
+        for (Integer integer : routesId) {
+            if (integer == route) {
+                routeName = "D" + route + "路";
+                break;
+            }
+        }
+        viewHolder.tv_route.setText(routeName);
         List<RouteStationInfoList.RouteStationInfo.SegmentListBean.StationListBean> stationListBean = busBean.getStationList();
         String staStartName = stationListBean.get(0).getStationName();
         String staEndName = stationListBean.get(stationListBean.size() - 1).getStationName();
         if (staStartName.contains("(上行)") || staStartName.contains("(下行)")
                 || staStartName.contains("（上行）") || staStartName.contains("（下行）")) {
-            staStartName=staStartName.substring(0, staStartName.length() - 4);
+            staStartName = staStartName.substring(0, staStartName.length() - 4);
         }
         if (staEndName.contains("(上行)") || staEndName.contains("(下行)")
-                || staEndName.contains("（上行）") || staEndName.contains("（下行）")) {
-            staEndName=staEndName.substring(0, staEndName.length() - 4);
+                || staEndName.contains("（上行）") || staEndName.contains("（下行）")
+                || staEndName.contains("（上行 ）") || staEndName.contains("（下行 ）")) {
+            staEndName = staEndName.substring(0, staEndName.length() - 4);
         }
         viewHolder.tv_way.setText(staStartName + " - " + staEndName);
         viewHolder.tv_nearSta.setText("最近站点：" + nearSta);

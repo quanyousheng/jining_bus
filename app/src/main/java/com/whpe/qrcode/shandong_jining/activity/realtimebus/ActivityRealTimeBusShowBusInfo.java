@@ -52,7 +52,7 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
                     showProgress();
                     realTimeInfoAction.sendAction(routeId, segmentId);
                     if (flag) {
-                        mHandler.sendEmptyMessageDelayed(TIMER, 30000);
+                        mHandler.sendEmptyMessageDelayed(TIMER, 15000);
                     }
                     break;
                 default:
@@ -118,9 +118,13 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
         int id = v.getId();
         switch (id) {
             case R.id.frame_changeDirection:
-                showProgress();
-                isChangeDir = !isChangeDir;
-                routeStationInfoAction.sendAction(routeId);
+                if (segmentList.size() > 1) {
+                    showProgress();
+                    isChangeDir = !isChangeDir;
+                    routeStationInfoAction.sendAction(routeId);
+                }else {
+                    ToastUtils.showToast(ActivityRealTimeBusShowBusInfo.this,"环线暂不能换向");
+                }
                 break;
             case R.id.frame_refresh:
                 showProgress();
@@ -139,7 +143,7 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
                 setTitle(routeStationInfoList.getDataList().get(0).getRouteName());
                 tv_routeName.setText(routeStationInfoList.getDataList().get(0).getRouteName());
                 segmentList = routeStationInfoList.getDataList().get(0).getSegmentList();
-                if (segmentList != null) {
+                if (segmentList != null && segmentList.size() > 1) {
                     if (!isChangeDir) {
                         segmentId = segmentList.get(0).getSegmentID();
                     } else {
@@ -151,7 +155,7 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
 
                 if (onlyOnce) {
                     onlyOnce = false;
-                    mHandler.sendEmptyMessageDelayed(TIMER, 30000);
+                    mHandler.sendEmptyMessageDelayed(TIMER, 15000);
                 }
             } else {
                 checkAllUpadate(rescode, getinfo);
