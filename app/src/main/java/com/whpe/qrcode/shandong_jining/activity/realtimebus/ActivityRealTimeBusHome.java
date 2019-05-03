@@ -1,14 +1,7 @@
 package com.whpe.qrcode.shandong_jining.activity.realtimebus;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +10,6 @@ import android.widget.TextView;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
-import com.baidu.location.Poi;
 import com.whpe.qrcode.shandong_jining.GYDZApplication;
 import com.whpe.qrcode.shandong_jining.R;
 import com.whpe.qrcode.shandong_jining.bigtools.BDLocation.LocationService;
@@ -53,6 +45,7 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
     private LocationService locationService;//百度定位服务
     private boolean showLocationFailDialog = false;//显示定位失败弹出提示框
     private boolean showNoDataDialog = false;//显示不在济宁弹出提示框
+    private QueryByStationIDAction queryByStationIDAction;
 
     /*****
      * 定位结果回调，重写onReceiveLocation方法
@@ -68,6 +61,9 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
                 showProgress();
                 nearbyStatInfoAction = new NearbyStatInfoAction(ActivityRealTimeBusHome.this, ActivityRealTimeBusHome.this);
                 nearbyStatInfoAction.sendAction(sucLongitude, sucLatitude);
+                if (parentPos != 0 && expand_list.isGroupExpanded(parentPos)) {
+                    queryByStationIDAction.sendAction(parentList.get(parentPos).getStationID());
+                }
 
                 StringBuffer sb = new StringBuffer(256);
                 sb.append("\nlocType description : ");// *****对应的定位类型说明*****
@@ -143,13 +139,17 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 //如果分组被打开 直接关闭
-                if (expand_list.isGroupExpanded(groupPosition)) {
-                    expand_list.collapseGroup(groupPosition);
-                } else {
-                    showProgress();
-                    parentPos = groupPosition;
-                    QueryByStationIDAction queryByStationIDAction = new QueryByStationIDAction(activity, ActivityRealTimeBusHome.this);
-                    queryByStationIDAction.sendAction(parentList.get(groupPosition).getStationID());
+                for (int i = 0; i < parentList.size(); i++) {
+                    if (expand_list.isGroupExpanded(i)) {
+                        expand_list.collapseGroup(i);
+                    } else {
+                        if (i == groupPosition) {
+                            showProgress();
+                            parentPos = groupPosition;
+                            queryByStationIDAction = new QueryByStationIDAction(activity, ActivityRealTimeBusHome.this);
+                            queryByStationIDAction.sendAction(parentList.get(groupPosition).getStationID());
+                        }
+                    }
                 }
                 return true;
             }
@@ -171,8 +171,13 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
         int id = v.getId();
         switch (id) {
             case R.id.tv_refresh:
-                showProgress();
-                nearbyStatInfoAction.sendAction(longitude, latitude);
+                if (sucLatitude != 0 && sucLongitude != 0) {
+                    showProgress();
+                    nearbyStatInfoAction.sendAction(sucLongitude, sucLatitude);
+                } else {
+                    showProgress();
+                    nearbyStatInfoAction.sendAction(longitude, latitude);
+                }
                 break;
             case R.id.btn_tosearch:
                 Bundle bundle = new Bundle();
@@ -225,7 +230,7 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
                     parentList.addAll(dataList);
                     myAdapter.notifyDataSetChanged();
                 } else {
-  //                对话框只显示一次
+                    //                对话框只显示一次
                     if (!showNoDataDialog) {
                         showAlertDialog("当前位置不在济宁,切换到默认位置济宁市政府", new View.OnClickListener() {
                             @Override

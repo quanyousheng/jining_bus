@@ -40,7 +40,7 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
     private BusRealTimeInfoAction realTimeInfoAction;
     private static final int TIMER = 999;
     private static boolean flag;
-    private static boolean onlyOnce = true;
+    private static boolean onlyOnce;
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -65,6 +65,7 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
     protected void onStart() {
         super.onStart();
         flag = true;
+        onlyOnce = true;
         showProgress();
         routeStationInfoAction.sendAction(routeId);
     }
@@ -122,8 +123,8 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
                     showProgress();
                     isChangeDir = !isChangeDir;
                     routeStationInfoAction.sendAction(routeId);
-                }else {
-                    ToastUtils.showToast(ActivityRealTimeBusShowBusInfo.this,"环线暂不能换向");
+                } else {
+                    ToastUtils.showToast(ActivityRealTimeBusShowBusInfo.this, "环线暂不能换向");
                 }
                 break;
             case R.id.frame_refresh:
@@ -204,14 +205,16 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
                 }
                 String staStartName = stationList.get(0).getSite();
                 String staEndName = stationList.get(stationList.size() - 1).getSite();
-//                if (staStartName.contains("(上行)") || staStartName.contains("(下行)")
-//                        || staStartName.contains("（上行）") || staStartName.contains("（下行）")) {
-//                    staStartName = staStartName.substring(0, staStartName.length() - 4);
-//                }
-//                if (staEndName.contains("(上行)") || staEndName.contains("(下行)")
-//                        || staEndName.contains("（上行）") || staEndName.contains("（下行）")) {
-//                    staEndName = staEndName.substring(0, staEndName.length() - 4);
-//                }
+                if (staStartName.contains("上行")) {
+                    staStartName = staStartName.replace("上行", "起点");
+                } else if (staStartName.contains("下行")) {
+                    staStartName = staStartName.replace("下行", "起点");
+                }
+                if (staEndName.contains("上行")) {
+                    staEndName = staEndName.replace("上行", "终点");
+                } else if (staEndName.contains("下行")) {
+                    staEndName = staEndName.replace("下行", "终点");
+                }
                 tv_way.setText(staStartName + " — " + staEndName);
                 adapter.notifyDataSetChanged();
             } else {

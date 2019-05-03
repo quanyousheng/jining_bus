@@ -9,11 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.whpe.qrcode.shandong_jining.R;
-import com.whpe.qrcode.shandong_jining.net.action.QueryByStationIDAction;
 import com.whpe.qrcode.shandong_jining.net.getbean.StationInfoList;
 import com.whpe.qrcode.shandong_jining.net.getbean.StationRealTimeInfoList;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -103,9 +101,9 @@ public class MyExtandableListViewAdapter extends BaseExpandableListAdapter {
         String distance = String.valueOf(groupList.get(groupPosition).getDistance());
         if (distance.contains(".")) {
             //      距离保留到小数点后两位
-            groupViewHolder.tvMile.setText(distance.substring(0, distance.indexOf(".") + 2) + "米");
+            groupViewHolder.tvMile.setText("约" + distance.substring(0, distance.indexOf(".") + 2) + "米");
         } else {
-            groupViewHolder.tvMile.setText(distance + "米");
+            groupViewHolder.tvMile.setText("约" + distance + "米");
         }
         if (isExpanded) {
             groupViewHolder.iv_arrow.setImageDrawable(context.getResources().getDrawable(R.drawable.arrow_down));
