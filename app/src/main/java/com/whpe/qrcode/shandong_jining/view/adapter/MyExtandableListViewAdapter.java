@@ -144,9 +144,9 @@ public class MyExtandableListViewAdapter extends BaseExpandableListAdapter {
             String staName = realTimeInfoList.get(0).getArriveStaName();
             if (staName.contains("(上行)") || staName.contains("(下行)")
                     || staName.contains("（上行）") || staName.contains("（下行）")) {
-                childViewHolder.tv_next.setText("下一站：" + realTimeInfoList.get(0).getArriveStaName().substring(0, staName.length() - 4));
+                childViewHolder.tv_next.setText("即将到达：" + realTimeInfoList.get(0).getArriveStaName().substring(0, staName.length() - 4));
             } else {
-                childViewHolder.tv_next.setText("下一站：" + realTimeInfoList.get(0).getArriveStaName());
+                childViewHolder.tv_next.setText("即将到达：" + realTimeInfoList.get(0).getArriveStaName());
             }
             childViewHolder.tv_time.setText(realTimeInfoList.get(0).getRunTime() + "分钟后");
         } else {

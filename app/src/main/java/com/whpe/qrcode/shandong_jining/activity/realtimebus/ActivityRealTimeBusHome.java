@@ -41,7 +41,7 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
     private int parentPos;//记录点击的第几个父条目
     private String nearSta;//最近站点
     private static final double longitude = 116.5938885585, latitude = 35.4209607038;//默认市政府地址
-    private double sucLongitude = 0, sucLatitude = 0;//定位成功的经纬度
+    private static double sucLongitude, sucLatitude;//定位成功的经纬度
     private LocationService locationService;//百度定位服务
     private boolean showLocationFailDialog = false;//显示定位失败弹出提示框
     private boolean showNoDataDialog = false;//显示不在济宁弹出提示框
@@ -216,7 +216,6 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
                         }
                         stationInfo.setStationName(name);
                     }
-
                     for (int i = 0; i < dataList.size(); i++) {
                         String name = dataList.get(i).getStationName();
                         for (int j = i + 1; j < dataList.size(); j++) {
@@ -230,8 +229,8 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
                     parentList.addAll(dataList);
                     myAdapter.notifyDataSetChanged();
                 } else {
-                    //                对话框只显示一次
-                    if (!showNoDataDialog) {
+                    //               对话框只显示一次
+                    if (!showNoDataDialog && parentList.size() == 0) {
                         showAlertDialog("当前位置不在济宁,切换到默认位置济宁市政府", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

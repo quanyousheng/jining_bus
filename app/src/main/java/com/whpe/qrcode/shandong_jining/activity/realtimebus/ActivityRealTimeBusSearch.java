@@ -1,6 +1,9 @@
 package com.whpe.qrcode.shandong_jining.activity.realtimebus;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +35,18 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
     private ArrayList<RouteStationInfoList.RouteStationInfo.SegmentListBean> segmentList = new ArrayList<>();
     private String nearSta;
     private int route;
+    private List<Integer> integerList = new ArrayList<>();//环线暂不支持查询
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 0) {
+                dissmissProgress();
+                ToastUtils.showToast(ActivityRealTimeBusSearch.this, "未查询到该线路信息");
+            }
+        }
+    };
 
     @Override
     protected void afterLayout() {
@@ -57,6 +72,18 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
         btn_query.setOnClickListener(this);
         tv_cancel.setOnClickListener(this);
         tv_deleteHistory.setOnClickListener(this);
+        integerList.add(33);
+        integerList.add(331);
+        integerList.add(332);
+        integerList.add(66);
+        integerList.add(661);
+        integerList.add(662);
+        integerList.add(77);
+        integerList.add(771);
+        integerList.add(772);
+        integerList.add(401);
+        integerList.add(4011);
+        integerList.add(4012);
     }
 
     @Override
@@ -96,9 +123,14 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
                 } else {
                     segmentList.clear();
                     route = Integer.parseInt(et_input.getText().toString().trim());
-                    showProgress();
-                    RouteStationInfoAction routeStationInfoAction = new RouteStationInfoAction(this, this);
-                    routeStationInfoAction.sendAction(route);
+                    if (integerList.contains(route)) {
+                        showProgress();
+                        handler.sendEmptyMessageDelayed(0, 1000);
+                    } else {
+                        showProgress();
+                        RouteStationInfoAction routeStationInfoAction = new RouteStationInfoAction(this, this);
+                        routeStationInfoAction.sendAction(route);
+                    }
                 }
                 break;
             case R.id.tv_cancel:
