@@ -22,6 +22,7 @@ import com.whpe.qrcode.shandong_jining.net.action.RouteStationInfoAction;
 import com.whpe.qrcode.shandong_jining.net.getbean.RouteStationInfoList;
 import com.whpe.qrcode.shandong_jining.parent.NormalTitleActivity;
 import com.whpe.qrcode.shandong_jining.view.adapter.SearchRouteAdapter;
+import com.whpe.qrcode.shandong_jining.view.adapter.SearchRouteAdapter1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,21 +33,12 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
     private EditText et_input;
     private ListView lv_history;
     private SearchRouteAdapter adapter;
+    private SearchRouteAdapter1 adapter1;
+    private RouteStationInfoAction routeStationInfoAction;
     private ArrayList<RouteStationInfoList.RouteStationInfo.SegmentListBean> segmentList = new ArrayList<>();
+    private ArrayList<RouteStationInfoList.RouteStationInfo> segmentList1 = new ArrayList<>();
     private String nearSta;
     private int route;
-    private List<Integer> integerList = new ArrayList<>();//环线暂不支持查询
-    @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 0) {
-                dissmissProgress();
-                ToastUtils.showToast(ActivityRealTimeBusSearch.this, "未查询到该线路信息");
-            }
-        }
-    };
 
     @Override
     protected void afterLayout() {
@@ -72,18 +64,6 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
         btn_query.setOnClickListener(this);
         tv_cancel.setOnClickListener(this);
         tv_deleteHistory.setOnClickListener(this);
-        integerList.add(33);
-        integerList.add(331);
-        integerList.add(332);
-        integerList.add(66);
-        integerList.add(661);
-        integerList.add(662);
-        integerList.add(77);
-        integerList.add(771);
-        integerList.add(772);
-        integerList.add(401);
-        integerList.add(4011);
-        integerList.add(4012);
     }
 
     @Override
@@ -99,14 +79,18 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
         lv_history.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                boolean isChangeDir;
-                if (i == 0) {
-                    isChangeDir = false;
-                } else {
-                    isChangeDir = true;
-                }
                 Bundle bundle = new Bundle();
-                bundle.putBoolean("isChangeDir", isChangeDir);
+                boolean isChangeDir;
+                if (segmentList1 != null && segmentList1.size() > 0) {
+                    route = segmentList1.get(i).getRouteID();
+                } else {
+                    if (i == 0) {
+                        isChangeDir = false;
+                    } else {
+                        isChangeDir = true;
+                    }
+                    bundle.putBoolean("isChangeDir", isChangeDir);
+                }
                 bundle.putInt("RouteID", route);
                 transAty(ActivityRealTimeBusShowBusInfo.class, bundle);
             }
@@ -122,15 +106,25 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
                     ToastUtils.showToast(this, "请输入线路再查询");
                 } else {
                     segmentList.clear();
+                    segmentList1.clear();
                     route = Integer.parseInt(et_input.getText().toString().trim());
-                    if (integerList.contains(route)) {
-                        showProgress();
-                        handler.sendEmptyMessageDelayed(0, 1000);
-                    } else {
-                        showProgress();
-                        RouteStationInfoAction routeStationInfoAction = new RouteStationInfoAction(this, this);
-                        routeStationInfoAction.sendAction(route);
+                    showProgress();
+                    routeStationInfoAction = new RouteStationInfoAction(this, this);
+                    switch (route) {
+                        case 33:
+                            route = 331;
+                            break;
+                        case 66:
+                            route = 661;
+                            break;
+                        case 77:
+                            route = 771;
+                            break;
+                        case 40:
+                            route = 4011;
+                            break;
                     }
+                    routeStationInfoAction.sendAction(route);
                 }
                 break;
             case R.id.tv_cancel:
@@ -154,9 +148,35 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
                 if (routeStationInfoList.getDataList().size() == 0) {
                     ToastUtils.showToast(ActivityRealTimeBusSearch.this, "未查询到该线路信息");
                 } else {
-                    segmentList.addAll(routeStationInfoList.getDataList().get(0).getSegmentList());
-                    adapter = new SearchRouteAdapter(segmentList, nearSta, route);
-                    lv_history.setAdapter(adapter);
+                    if (routeStationInfoList.getDataList().get(0).getSegmentList().size() > 1) {
+                        segmentList.addAll(routeStationInfoList.getDataList().get(0).getSegmentList());
+                        adapter = new SearchRouteAdapter(segmentList, nearSta, route);
+                        lv_history.setAdapter(adapter);
+                    } else {
+                        if (segmentList1 != null && segmentList1.size() > 0) {
+                            segmentList1.add(routeStationInfoList.getDataList().get(0));
+                            adapter1.notifyDataSetChanged();
+                        } else {
+                            segmentList1.add(routeStationInfoList.getDataList().get(0));
+                            adapter1 = new SearchRouteAdapter1(segmentList1, nearSta);
+                            lv_history.setAdapter(adapter1);
+                            switch (route) {
+                                case 331:
+                                    route = 332;
+                                    break;
+                                case 661:
+                                    route = 662;
+                                    break;
+                                case 771:
+                                    route = 772;
+                                    break;
+                                case 4011:
+                                    route = 4012;
+                                    break;
+                            }
+                            routeStationInfoAction.sendAction(route);
+                        }
+                    }
                 }
             } else {
                 checkAllUpadate(rescode, getinfo);

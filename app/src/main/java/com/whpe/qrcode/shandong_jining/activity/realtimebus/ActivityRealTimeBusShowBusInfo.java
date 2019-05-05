@@ -210,10 +210,21 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
                 } else if (staStartName.contains("下行")) {
                     staStartName = staStartName.replace("下行", "起点");
                 }
+                if (staStartName.contains("上")) {
+                    staStartName = staStartName.replace("上", "起点");
+                } else if (staStartName.contains("下")) {
+                    staStartName = staStartName.replace("下", "起点");
+                }
+
                 if (staEndName.contains("上行")) {
                     staEndName = staEndName.replace("上行", "终点");
                 } else if (staEndName.contains("下行")) {
                     staEndName = staEndName.replace("下行", "终点");
+                }
+                if (staEndName.contains("上")) {
+                    staEndName = staEndName.replace("上", "终点");
+                } else if (staEndName.contains("下")) {
+                    staEndName = staEndName.replace("下", "终点");
                 }
                 tv_way.setText(staStartName + " — " + staEndName);
                 adapter.notifyDataSetChanged();
