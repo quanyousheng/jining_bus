@@ -224,6 +224,8 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
             } else {
                 hasLocatePermission = true;
             }
+        } else {
+            hasLocatePermission = true;
         }
     }
 
