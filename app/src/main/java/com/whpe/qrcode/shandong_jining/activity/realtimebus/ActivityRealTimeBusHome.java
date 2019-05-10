@@ -1,12 +1,17 @@
 package com.whpe.qrcode.shandong_jining.activity.realtimebus;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -30,6 +35,7 @@ import java.util.Map;
 
 public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements View.OnClickListener, NearbyStatInfoAction.Inter_NearbyStatInfo, QueryByStationIDAction.Inter_QueryByStationID {
     public static String TAG = "LocationUtil";
+    private final int SDK_PERMISSION_REQUEST = 127;
     private TextView tv_refresh;
     private Button btn_tosearch;
     private ExpandableListView expand_list;
@@ -46,6 +52,7 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
     private boolean showLocationFailDialog = false;//显示定位失败弹出提示框
     private boolean showNoDataDialog = false;//显示不在济宁弹出提示框
     private QueryByStationIDAction queryByStationIDAction;
+    private boolean hasLocatePermission;//是否拥有定位权限
 
     /*****
      * 定位结果回调，重写onReceiveLocation方法
@@ -58,21 +65,13 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
                 sucLongitude = location.getLongitude();
                 sucLatitude = location.getLatitude();
+                Log.e(TAG, "经度：" + sucLongitude + ",纬度：" + sucLatitude);
                 showProgress();
                 nearbyStatInfoAction = new NearbyStatInfoAction(ActivityRealTimeBusHome.this, ActivityRealTimeBusHome.this);
                 nearbyStatInfoAction.sendAction(sucLongitude, sucLatitude);
-                if (parentPos != 0 && expand_list.isGroupExpanded(parentPos)) {
+                if (expand_list.isGroupExpanded(parentPos)) {
                     queryByStationIDAction.sendAction(parentList.get(parentPos).getStationID());
                 }
-
-                StringBuffer sb = new StringBuffer(256);
-                sb.append("\nlocType description : ");// *****对应的定位类型说明*****
-                sb.append(location.getLocTypeDescription());
-                sb.append("\nlatitude : ");// 纬度
-                sb.append(latitude);
-                sb.append("\nlontitude : ");// 经度
-                sb.append(longitude);
-                Log.e(TAG, sb.toString());
             } else {
                 if (sucLatitude != 0 && sucLongitude != 0) {
 //                    showProgress();
@@ -96,6 +95,13 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
     };
 
     @Override
+    protected void beforeLayout() {
+        super.beforeLayout();
+//      获取定位权限
+        getPersimmions();
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         // -----------location config ------------
@@ -108,7 +114,8 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
         } else if (type == 1) {
             locationService.setLocationOption(locationService.getOption());
         }
-        locationService.start();// 定位SDK
+        if (hasLocatePermission)
+            locationService.start();// 定位SDK
     }
 
     @Override
@@ -174,9 +181,6 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
                 if (sucLatitude != 0 && sucLongitude != 0) {
                     showProgress();
                     nearbyStatInfoAction.sendAction(sucLongitude, sucLatitude);
-                } else {
-                    showProgress();
-                    nearbyStatInfoAction.sendAction(longitude, latitude);
                 }
                 break;
             case R.id.btn_tosearch:
@@ -196,6 +200,49 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
         locationService.unregisterListener(mListener); //注销掉监听
         locationService.stop(); //停止定位服务
         super.onStop();
+    }
+
+
+    @TargetApi(23)
+    private void getPersimmions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ArrayList<String> permissions = new ArrayList<String>();
+            /***
+             * 定位权限为必须权限，用户如果禁止，则每次进入都会申请
+             */
+            // 定位精确位置
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+            }
+            if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+            }
+
+            if (permissions.size() > 0) {
+                hasLocatePermission = false;
+                requestPermissions(permissions.toArray(new String[permissions.size()]), SDK_PERMISSION_REQUEST);
+            } else {
+                hasLocatePermission = true;
+            }
+        }
+    }
+
+    @TargetApi(23)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        // TODO Auto-generated method stub
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case SDK_PERMISSION_REQUEST:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted，do sth；
+                    locationService.start();// 定位SDK
+                } else {
+                    // permission denied,
+                    ToastUtils.showToast(this, "请授予位置信息权限");
+                }
+                break;
+        }
     }
 
     @Override

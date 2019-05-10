@@ -150,6 +150,8 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
                     } else {
                         segmentId = segmentList.get(1).getSegmentID();
                     }
+                } else {
+                    segmentId = segmentList.get(0).getSegmentID();
                 }
                 realTimeInfoAction = new BusRealTimeInfoAction(this, this);
                 realTimeInfoAction.sendAction(routeId, segmentId);

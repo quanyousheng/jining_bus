@@ -120,7 +120,7 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
                         case 77:
                             route = 771;
                             break;
-                        case 40:
+                        case 401:
                             route = 4011;
                             break;
                     }

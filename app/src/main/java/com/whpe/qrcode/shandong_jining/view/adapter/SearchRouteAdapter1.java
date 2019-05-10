@@ -58,17 +58,9 @@ public class SearchRouteAdapter1 extends BaseAdapter {
                 || staStartName.contains("（上行）") || staStartName.contains("（下行）")) {
             staStartName = staStartName.substring(0, staStartName.length() - 4);
         }
-        if (staStartName.contains("(上)") || staStartName.contains("(下)")
-                || staStartName.contains("（上）") || staStartName.contains("（下）")) {
-            staStartName = staStartName.substring(0, staStartName.length() - 3);
-        }
         if (staEndName.contains("(上行)") || staEndName.contains("(下行)")
                 || staEndName.contains("（上行）") || staEndName.contains("（下行）")
                 || staEndName.contains("（上行 ）") || staEndName.contains("（下行 ）")) {
-            staEndName = staEndName.substring(0, staEndName.length() - 3);
-        }
-        if (staEndName.contains("(上)") || staEndName.contains("(下)")
-                || staEndName.contains("（上）") || staEndName.contains("（下）")) {
             staEndName = staEndName.substring(0, staEndName.length() - 3);
         }
         viewHolder.tv_way.setText(staStartName + " - " + staEndName);

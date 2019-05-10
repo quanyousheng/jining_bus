@@ -95,7 +95,6 @@ public class FrgQrcodeshowPrePay extends Fragment implements View.OnClickListene
         tv_refresh = (TextView)content.findViewById(R.id.tv_refresh);
     }
 
-
     @Override
     public void onClick(View view) {
         int id=view.getId();

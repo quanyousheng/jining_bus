@@ -37,13 +37,13 @@
                 tools:text="下一站：火神庙" />
         </LinearLayout>
 
-
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:textColor="@color/app_theme"
+            android:visibility="gone"
             tools:text="2分钟" />
     </LinearLayout>
 
