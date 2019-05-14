@@ -104,7 +104,7 @@
         android:layout_width="match_parent"
         android:layout_height="43dp"
         android:background="@color/common_background_gray"
-        android:drawableLeft="@drawable/aty_realtimebussearch_deletehistory"
+        android:drawableLeft="@drawable/icon_trash"
         android:drawablePadding="6dp"
         android:gravity="center_vertical"
         android:paddingLeft="17dp"

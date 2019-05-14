@@ -33,7 +33,7 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
     private EditText et_input;
     private ListView lv_history;
     private SearchRouteAdapter adapter;
-    private SearchRouteAdapter1 adapter1;
+    private SearchRouteAdapter1 adapter1;//环线使用的Adapter
     private RouteStationInfoAction routeStationInfoAction;
     private ArrayList<RouteStationInfoList.RouteStationInfo.SegmentListBean> segmentList = new ArrayList<>();
     private ArrayList<RouteStationInfoList.RouteStationInfo> segmentList1 = new ArrayList<>();
@@ -131,8 +131,14 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
                 et_input.setText("");
                 break;
             case R.id.tv_deleteHistory:
-                segmentList.clear();
-                adapter.notifyDataSetChanged();
+                if (segmentList.size()>0){
+                    segmentList.clear();
+                    adapter.notifyDataSetChanged();
+                }
+                if (segmentList1.size()>0){
+                    segmentList1.clear();
+                    adapter1.notifyDataSetChanged();
+                }
                 break;
         }
     }

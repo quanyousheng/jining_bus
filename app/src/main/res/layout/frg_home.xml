@@ -15,102 +15,42 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/frg_ll_content"
-                android:layout_width="match_parent"
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/frg_home_topbackground"
-                android:orientation="vertical"
-                android:paddingBottom="10dp">
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/jining_logo" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:gravity="center"
-                    android:text="@string/app_name"
-                    android:textColor="@color/white"
-                    android:textSize="18dp" />
-
-                <ImageView
-                    android:id="@+id/iv_topcard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/frg_home_topcard"
-                    android:visibility="gone" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="142dp">
-
-                    <android.support.v4.view.ViewPager
-                        android:id="@+id/vp_top"
-                        android:layout_width="match_parent"
-                        android:layout_height="142dp"></android.support.v4.view.ViewPager>
-
-                    <com.lwj.widget.viewpagerindicator.ViewPagerIndicator
-                        android:id="@+id/indicator_line"
-                        android:layout_width="match_parent"
-                        android:layout_height="20dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="5dp"
-                        android:background="#00000000"
-                        app:vpi_default_color="#66cdcdcd"
-                        app:vpi_distance="15dp"
-                        app:vpi_distanceType="BY_DISTANCE"
-                        app:vpi_indicatorType="CIRCLE"
-                        app:vpi_radius="4dp"
-                        app:vpi_selected_color="@color/white" />
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="19dp"
-                android:paddingBottom="13dp">
+                android:layout_height="170dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/banner" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/common_background_gray" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="270dp">
+
+                <GridView
+                    android:id="@+id/gridView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:numColumns="2" />
 
                 <ImageView
-                    android:id="@+id/iv_tabrecharge"
-                    style="@style/frg_home_tab_style"
-                    android:src="@drawable/frg_home_tabrecharge" />
-
-                <ImageView
-                    android:id="@+id/iv_tabcloudrechargecard"
-                    style="@style/frg_home_tab_style"
-                    android:src="@drawable/frg_home_tabcloudrechargecard" />
-
-                <ImageView
-                    android:id="@+id/iv_tabbusmap"
-                    style="@style/frg_home_tab_style"
-                    android:src="@drawable/frg_home_tabbusmap"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/iv_tabcallsus"
-                    style="@style/frg_home_tab_style"
-                    android:src="@drawable/frg_home_tabcallsus"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/iv_realTimeBus"
-                    style="@style/frg_home_tab_style"
-                    android:src="@drawable/real_time_bus" />
-
-                <ImageView
-                    android:id="@+id/iv_tabsearchstudentcard"
-                    style="@style/frg_home_tab_style"
-                    android:src="@drawable/frg_home_tabsearchstudentcard"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/iv_tabusehelp"
-                    style="@style/frg_home_tab_style"
-                    android:src="@drawable/frg_home_tabusehelp" />
-
-            </LinearLayout>
+                    android:id="@+id/iv_qrcode"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/qrcode" />
+            </FrameLayout>
 
             <include layout="@layout/layout_frg_home_news" />
         </LinearLayout>
@@ -118,69 +58,3 @@
 </android.support.v4.widget.SwipeRefreshLayout>
 
 
-    <!--
-    <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <LinearLayout
-                android:id="@+id/frg_ll_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/frg_home_topbackground"
-                android:paddingBottom="10dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:textSize="18dp"
-                    android:textColor="@color/white"
-                    android:text="@string/app_name"
-                    android:gravity="center"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/frg_home_topcard"
-                    android:layout_gravity="center_horizontal"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="19dp"
-                android:paddingBottom="13dp">
-                <ImageView
-                    android:id="@+id/iv_tabrecharge"
-                    style="@style/frg_home_tab_style"
-                    android:src="@drawable/frg_home_tabrecharge"/>
-                <ImageView
-                    android:id="@+id/iv_tabbusmap"
-                    style="@style/frg_home_tab_style"
-                    android:src="@drawable/frg_home_tabbusmap"
-                    android:visibility="gone"/>
-                <ImageView
-                    android:id="@+id/iv_tabcallsus"
-                    style="@style/frg_home_tab_style"
-                    android:src="@drawable/frg_home_tabcallsus" />
-                <ImageView
-                    android:id="@+id/iv_tabsearchstudentcard"
-                    style="@style/frg_home_tab_style"
-                    android:src="@drawable/frg_home_tabsearchstudentcard"
-                    android:visibility="gone"/>
-                <ImageView
-                    android:id="@+id/iv_tabusehelp"
-                    style="@style/frg_home_tab_style"
-                    android:src="@drawable/frg_home_tabusehelp" />
-                <ImageView
-                    android:id="@+id/iv_tabcloudrechargecard"
-                    style="@style/frg_home_tab_style"
-                    android:src="@drawable/frg_home_tabcloudrechargecard"/>
-            </LinearLayout>
-            <include layout="@layout/layout_frg_home_news"/>
-        </LinearLayout>
-    </RelativeLayout>-->

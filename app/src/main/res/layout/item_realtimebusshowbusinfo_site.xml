@@ -12,7 +12,7 @@
         android:layout_height="20dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="41dp"
-        android:src="@drawable/aty_realtimebusshowbusinfo_itembus" />
+        android:src="@drawable/red_bus" />
 
     <LinearLayout
         android:layout_width="12dp"

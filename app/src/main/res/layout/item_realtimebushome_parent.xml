@@ -16,7 +16,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/bus_station"
+            android:drawableLeft="@drawable/red_station"
             android:drawablePadding="10dp"
             android:gravity="left|center_vertical"
             android:textColor="@color/comon_text_black_normal"

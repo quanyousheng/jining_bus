@@ -9,7 +9,7 @@
         android:id="@+id/ll_background"
         android:layout_width="match_parent"
         android:layout_height="230dp"
-        android:background="@drawable/aty_realtimebushome_topbackground"
+        android:background="@drawable/red_banner"
         android:orientation="vertical">
 
         <include layout="@layout/layout_titlebar" />
@@ -65,7 +65,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="17dp"
-            android:drawableLeft="@drawable/aty_realtimebushome_refresh"
+            android:drawableLeft="@drawable/red_refresh"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
             android:text="@string/realtimebushome_refresh"

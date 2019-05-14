@@ -1,79 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
-    <LinearLayout
+
+    <include
+        android:id="@+id/rl_title"
+        layout="@layout/layout_titlebar" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:text="充值"
+        android:textColor="@color/comon_text_black_most"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rl_title" />
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="5dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="50dp"
+        android:background="@color/app_theme"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_name" />
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="请选择金额"
+        android:textColor="@color/comon_text_black_most"
+        android:textSize="17sp"
+        app:layout_constraintLeft_toRightOf="@id/view_line"
+        app:layout_constraintTop_toTopOf="@id/view_line" />
+
+    <View
+        android:id="@+id/div_line"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="1"
-        android:paddingBottom="10dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/aty_paypurse_titlebackground">
-            <include layout="@layout/layout_titlebar"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/paypurse_balance_remarks"
-                android:textColor="@color/white"
-                android:textSize="12dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginLeft="22dp"/>
-            <TextView
-                android:id="@+id/tv_balance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="46dp"
-                android:textColor="@color/white"
-                android:layout_marginTop="16dp"
-                android:layout_marginLeft="22dp"/>
-        </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:paddingBottom="17dp"
-            android:text="@string/paypurse_money_remarks"
-            android:textSize="12dp"
-            android:textColor="@color/comon_text_black_normal"
-            android:layout_marginLeft="18dp"/>
-        <GridView
-            android:id="@+id/gvmoney"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:numColumns="3"
-            android:verticalSpacing="20dp"
-            android:layout_gravity="center_horizontal"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="13dp"
-            android:paddingLeft="18dp"
-            android:text="@string/paypurse_usepromt"
-            android:textColor="@color/aty_paypurse_usepromt"
-            android:textSize="12dp"/>
-        <ListView
-            android:id="@+id/lv_paytype"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="18dp"
-            android:layout_marginRight="18dp"
-            android:divider="@color/transparency"></ListView>
-    </LinearLayout>
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/common_background_gray"
+        app:layout_constraintTop_toBottomOf="@id/view_line" />
+
+    <GridView
+        android:id="@+id/gvmoney"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="3"
+        android:padding="10dp"
+        android:verticalSpacing="20dp"
+        app:layout_constraintTop_toBottomOf="@id/div_line" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/common_background_gray"
+        app:layout_constraintTop_toBottomOf="@id/gvmoney" />
+
+    <View
+        android:id="@+id/view_line_1"
+        android:layout_width="5dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/app_theme"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gvmoney" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="请选择支付方式"
+        android:textColor="@color/comon_text_black_most"
+        android:textSize="17sp"
+        app:layout_constraintLeft_toRightOf="@id/view_line_1"
+        app:layout_constraintTop_toTopOf="@id/view_line_1" />
+
+    <View
+        android:id="@+id/div_line_1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/common_background_gray"
+        app:layout_constraintTop_toBottomOf="@id/view_line_1" />
+
+    <ListView
+        android:id="@+id/lv_paytype"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:divider="@color/transparency"
+        app:layout_constraintTop_toBottomOf="@id/div_line_1" />
 
     <Button
         android:id="@+id/btn_submit"
+        style="@style/btn_style"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/aty_paypurse_submitbutton_height"
-        android:background="@color/app_theme"
-        android:text="@string/paypurse_btntext_default"
-        android:textSize="15dp"
-        android:textColor="@color/white"/>
-</LinearLayout>
+        android:layout_marginBottom="30dp"
+        android:text="充值"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</android.support.constraint.ConstraintLayout>

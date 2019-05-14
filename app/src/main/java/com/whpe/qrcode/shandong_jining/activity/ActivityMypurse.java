@@ -18,9 +18,9 @@ import java.util.ArrayList;
 
 public class ActivityMypurse extends BackgroundTitleActivity implements QueryQrUserInfoAction.Inter_queryqruserinfo {
 
-    private Button btn_topaypurse;
+    private Button btn_recharge;
     private LoadQrcodeParamBean loadQrcodeParamBean=new LoadQrcodeParamBean();
-    private TextView tv_balance;
+    private TextView tv_money;
     private QrcodeStatusBean qrcodeStatusBean=new QrcodeStatusBean();
 
 
@@ -43,14 +43,14 @@ public class ActivityMypurse extends BackgroundTitleActivity implements QueryQrU
     @Override
     protected void onCreateInitView() {
         super.onCreateInitView();
-        setMyTitleColor(R.color.transparency);
+        setMyTitleColor(R.color.app_theme);
         setTitle(getString(R.string.mypurse_title));
 
-        btn_topaypurse.setOnClickListener(new View.OnClickListener() {
+        btn_recharge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /*Bundle bundle=new Bundle();
-                bundle.putString(GlobalConfig.INTENT_MONEY_KEY,tv_balance.getText().toString());*/
+                bundle.putString(GlobalConfig.INTENT_MONEY_KEY,tv_money.getText().toString());*/
                 transAty(ActivityPayPurse.class);
             }
         });
@@ -59,8 +59,8 @@ public class ActivityMypurse extends BackgroundTitleActivity implements QueryQrU
     @Override
     protected void onCreatebindView() {
         super.onCreatebindView();
-        btn_topaypurse = (Button)findViewById(R.id.btn_topaypurse);
-        tv_balance = (TextView)findViewById(R.id.tv_balance);
+        btn_recharge = (Button)findViewById(R.id.btn_recharge);
+        tv_money = (TextView)findViewById(R.id.tv_money);
     }
 
     @Override
@@ -83,8 +83,8 @@ public class ActivityMypurse extends BackgroundTitleActivity implements QueryQrU
                 qrcodeStatusBean= (QrcodeStatusBean) JsonComomUtils.parseAllInfo(getinfo.get(2),qrcodeStatusBean);
                 String balance=new BigDecimal(qrcodeStatusBean.getBalance()).divide(new BigDecimal(100))
                         .toString();
-                //tv_balance.setText(balance);
-                tv_balance.setText(String.format("%.2f",Double.parseDouble(balance)));
+                //tv_money.setText(balance);
+                tv_money.setText(String.format("%.2f",Double.parseDouble(balance)));
             }else {
                 if(rescode.equals(GlobalConfig.RESCODE_NOTOPENQRCARD)){
                     toQrcodeActivity(getinfo);

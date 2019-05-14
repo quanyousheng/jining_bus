@@ -33,7 +33,7 @@ public class FrgQrcodeExceptionPrePay extends Fragment implements View.OnClickLi
     private Context context;
     private ActivityQrcode activity;
     private TextView btn_submit;
-    private ImageView iv_qrcode_exception;
+    private ImageView iv_qrCode;
     private TextView tv_exception_info;
     private int qrcode_exception_type;
     private String cardno;
@@ -67,32 +67,32 @@ public class FrgQrcodeExceptionPrePay extends Fragment implements View.OnClickLi
         if(qrcode_exception_type ==GlobalConfig.QRCODE_TYPE_NOTOPEN){
             btn_submit.setText(getString(R.string.frg_qrcodeexception_buttoninfo_notopen));
             tv_exception_info.setText(getString(R.string.frg_qrcodeexception_textinfo_notopen));
-            iv_qrcode_exception.setImageDrawable(MyDrawableUtils.getDrawble(context,R.drawable.frg_notopen_qrcode_prompt));
+//            iv_qrCode.setImageDrawable(MyDrawableUtils.getDrawble(context,R.drawable.frg_notopen_qrcode_prompt));
         }else if(qrcode_exception_type ==GlobalConfig.QRCODE_TYPE_NOTBANDPAYTYPE){
             btn_submit.setText(getString(R.string.frg_qrcodeexception_buttoninfo_notbindpaytype));
             tv_exception_info.setText(getString(R.string.frg_qrcodeexception_textinfo_notbindpaytype));
-            iv_qrcode_exception.setImageDrawable(MyDrawableUtils.getDrawble(context,R.drawable.frg_qrcode_exception));
+//            iv_qrCode.setImageDrawable(MyDrawableUtils.getDrawble(context,R.drawable.frg_qrcode_exception));
         }else if(qrcode_exception_type ==GlobalConfig.QRCODE_TYPE_DEPOSIT){
             btn_submit.setText(getString(R.string.frg_qrcodeexception_buttoninfo_deposit));
             tv_exception_info.setText(getString(R.string.frg_qrcodeexception_textinfo_deposit));
-            iv_qrcode_exception.setImageDrawable(MyDrawableUtils.getDrawble(context,R.drawable.frg_qrcode_exception));
+//            iv_qrCode.setImageDrawable(MyDrawableUtils.getDrawble(context,R.drawable.frg_qrcode_exception));
         }else if(qrcode_exception_type ==GlobalConfig.QRCODE_TYPE_BALANCECANTUSE) {
             btn_submit.setText(getString(R.string.frg_qrcodeexception_buttoninfo_balancecantuse));
             String allowlowestamt=new BigDecimal(activity.loadQrcodeParamBean.getCityQrParamConfig().getAllowLowestAmt()).divide(new BigDecimal(100))
                     .toString();
             tv_exception_info.setText(getString(R.string.frg_qrcodeexception_textinfo_balancecantuse)+allowlowestamt+"元");
             //tv_exception_info.setText(getString(R.string.frg_qrcodeexception_textinfo_balancecantuse));
-            iv_qrcode_exception.setImageDrawable(MyDrawableUtils.getDrawble(context, R.drawable.frg_qrcode_exception));
+//            iv_qrCode.setImageDrawable(MyDrawableUtils.getDrawble(context, R.drawable.frg_qrcode_exception));
         }else if(qrcode_exception_type ==GlobalConfig.QRCODE_TYPE_ARREAR){
             btn_submit.setText(getString(R.string.frg_qrcodeexception_buttoninfo_arrear));
             tv_exception_info.setText(getString(R.string.frg_qrcodeexception_textinfo_arrear));
-            iv_qrcode_exception.setImageDrawable(MyDrawableUtils.getDrawble(context, R.drawable.frg_qrcode_exception));
+//            iv_qrCode.setImageDrawable(MyDrawableUtils.getDrawble(context, R.drawable.frg_qrcode_exception));
         }
     }
 
     private void bindView() {
         btn_submit = (TextView)content.findViewById(R.id.btn_submit);
-        iv_qrcode_exception = (ImageView)content.findViewById(R.id.iv_qrcode_exception);
+        iv_qrCode = (ImageView)content.findViewById(R.id.iv_qrCode);
         tv_exception_info = (TextView)content.findViewById(R.id.tv_exception_info);
         tv_qrcode_cardnum = (TextView)content.findViewById(R.id.tv_qrcode_cardnum);
         btn_submit.setOnClickListener(this);

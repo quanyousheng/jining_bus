@@ -20,12 +20,10 @@
     <string name="calls_phone">0537-3258020</string>
 
 
-
     <!--我的钱包页面-->
     <string name="mypurse_title">我的钱包</string>
     <string name="mypurse_balance_remarks">可用余额(元)</string>
     <string name="mypurse_nextbutton_text">立即充值</string>
-
 
 
     <!--充值钱包页面-->
@@ -80,9 +78,6 @@
     <string name="update_tv_dowanload">正在更新%1$d％</string>
 
 
-
-
-
     <!--二维码总页面-->
     <string name="activtiy_qrcode_title">刷码乘车</string>
     <string name="frg_qrcode_cardnum">卡号:</string>
@@ -110,9 +105,6 @@
 
     <string name="frg_qrcodeexception_opensuccess">二维码电子卡开通成功</string>
     <string name="frg_qrcodeexception_openfaild">二维码电子卡开通失败</string>
-
-
-
 
 
     <!--使用帮助页面-->
@@ -150,7 +142,6 @@
 
     <!--支付下单html页面-->
     <string name="payhtml_title">支付</string>
-
 
 
     <string name="aboutus_title">关于我们</string>
@@ -204,7 +195,6 @@
     <string name="realtimebussearch_query">查询</string>
     <string name="realtimebussearch_cancel">取消</string>
     <string name="realtimebussearch_deletehistory">清空历史记录</string>
-
 
 
     实时公交显示具体页面

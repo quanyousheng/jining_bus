@@ -20,7 +20,7 @@ public class RouteStationAdapter extends BaseAdapter {
     private String stationId;
     private Context context;
 
-    public RouteStationAdapter(Context context,ArrayList<RealTimeBusBean> realTimeBusBeans, String stationId) {
+    public RouteStationAdapter(Context context, ArrayList<RealTimeBusBean> realTimeBusBeans, String stationId) {
         this.realTimeBusBeans = realTimeBusBeans;
         this.stationId = stationId;
         this.context = context;
@@ -57,15 +57,15 @@ public class RouteStationAdapter extends BaseAdapter {
         } else {
             viewHolder = (MyViewHolder) convertView.getTag();
         }
-        RealTimeBusBean busBean=realTimeBusBeans.get(position);
+        RealTimeBusBean busBean = realTimeBusBeans.get(position);
         String staName = busBean.getSite();
         if (staName.contains("(上行)") || staName.contains("(下行)")
                 || staName.contains("（上行）") || staName.contains("（下行）")) {
-            staName=staName.substring(0, staName.length() - 4);
+            staName = staName.substring(0, staName.length() - 4);
         }
         viewHolder.tv_site.setText(staName);
         if (busBean.isHavebus()) {
-            viewHolder.iv_sitecircle.setBackground(MyDrawableUtils.getDrawble(context, R.drawable.aty_realtimebusshowbusinfo_itemsiteget));
+            viewHolder.iv_sitecircle.setBackground(MyDrawableUtils.getDrawble(context, R.drawable.red_dot));
             viewHolder.iv_bus.setVisibility(View.VISIBLE);
         } else {
             viewHolder.iv_sitecircle.setBackground(MyDrawableUtils.getDrawble(context, R.drawable.aty_realtimebusshowbusinfo_itemsitenotget));
@@ -73,17 +73,17 @@ public class RouteStationAdapter extends BaseAdapter {
         }
         if (position == 0) {
             viewHolder.v_topline.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             viewHolder.v_topline.setVisibility(View.VISIBLE);
         }
         if (position == realTimeBusBeans.size() - 1) {
             viewHolder.v_bottomline.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             viewHolder.v_bottomline.setVisibility(View.VISIBLE);
         }
-        if (busBean.getStationId().equals(stationId)){
+        if (busBean.getStationId().equals(stationId)) {
             viewHolder.rl_item.setBackgroundColor(context.getResources().getColor(R.color.common_background_gray));
-        }else {
+        } else {
             viewHolder.rl_item.setBackgroundColor(context.getResources().getColor(R.color.white));
         }
         return convertView;

@@ -1,77 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
+
     <RelativeLayout
         android:id="@+id/rl_content"
         android:layout_width="match_parent"
-        android:layout_height="178dp"
-        android:background="@drawable/frg_myself_backgroundtop">
-        <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_height="147dp"
+        android:background="@drawable/me_bg">
+
+        <ImageView
             android:id="@+id/iv_usericon"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            app:civ_border_width="5dp"
-            app:civ_border_color="#7affffff"
-            android:layout_centerInParent="true"
-            android:src="@drawable/nologin_userhead" />
-        <TextView
-            android:id="@+id/tv_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:textColor="@color/white"
-            android:layout_below="@id/iv_usericon"
-            android:layout_marginTop="12dp"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:clickable="true"
-            android:text="@string/myself_pleaselogin"/>
+            android:src="@drawable/me_rw"
+            />
+
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="30dp"
+        android:text="@string/myself_pleaselogin"
+        android:textColor="@color/comon_text_black_most"
+        android:textSize="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/common_background_gray" />
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
         android:background="@color/common_background_gray">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <include layout="@layout/item_tab_frgmy"
-                android:id="@+id/tab_mypurse"/>
+
+            <include
+                android:id="@+id/tab_mypurse"
+                layout="@layout/item_tab_frgmy" />
+
             <View
                 android:layout_width="63dp"
                 android:layout_height="1dp"
                 android:background="@color/white" />
-            <include layout="@layout/item_tab_frgmy"
-                android:id="@+id/tab_deposit"/>
+
+            <include
+                android:id="@+id/tab_deposit"
+                layout="@layout/item_tab_frgmy" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
                 android:background="@color/common_background_gray" />
-            <include layout="@layout/item_tab_frgmy"
-                android:id="@+id/tab_usehelp"/>
+
+            <include
+                android:id="@+id/tab_usehelp"
+                layout="@layout/item_tab_frgmy" />
+
             <View
                 android:layout_width="63dp"
                 android:layout_height="1dp"
                 android:background="@color/white" />
-            <include layout="@layout/item_tab_frgmy"
+
+            <include
                 android:id="@+id/tab_call"
-                android:visibility="gone"/>
+                layout="@layout/item_tab_frgmy"
+                android:visibility="gone" />
+
             <View
                 android:layout_width="63dp"
                 android:layout_height="1dp"
                 android:background="@color/white" />
-            <include layout="@layout/item_tab_frgmy"
-                android:id="@+id/tab_aboutus"/>
+
+            <include
+                android:id="@+id/tab_aboutus"
+                layout="@layout/item_tab_frgmy" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
                 android:background="@color/common_background_gray" />
-            <include layout="@layout/item_tab_frgmy"
-                android:id="@+id/tab_settings"/>
+
+            <include
+                android:id="@+id/tab_settings"
+                layout="@layout/item_tab_frgmy" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

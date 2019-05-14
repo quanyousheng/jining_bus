@@ -18,13 +18,13 @@ public class BackgroundTitleActivity extends ParentActivity {
     @Override
     protected void afterLayout() {
         rl_title = findViewById(R.id.rl_title);
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        LinearLayout.LayoutParams lp= (LinearLayout.LayoutParams) rl_title.getLayoutParams();
-        lp.setMargins(0,result,0,0);
+//        int result = 0;
+//        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+//        if (resourceId > 0) {
+//            result = getResources().getDimensionPixelSize(resourceId);
+//        }
+//        LinearLayout.LayoutParams lp= (LinearLayout.LayoutParams) rl_title.getLayoutParams();
+//        lp.setMargins(0,result,0,0);
     }
 
     @Override

@@ -159,7 +159,7 @@ public class FrgMyself extends Fragment {
             String st_phone=activity.sharePreferenceLogin.getLoginPhone();
             String st_show_phone=st_phone.substring(0,3)+"****"+st_phone.substring(7,st_phone.length());
             tv_phone.setText(st_show_phone);
-            iv_usericon.setImageDrawable(MyDrawableUtils.getDrawble(context,R.drawable.userhead));
+            iv_usericon.setImageDrawable(MyDrawableUtils.getDrawble(context,R.drawable.me_rw));
             tv_phone.setClickable(false);
         }else {
             tv_phone.setText(getString(R.string.myself_pleaselogin));

@@ -27,12 +27,11 @@ import java.util.ArrayList;
 
 public class ActivityLogin extends ParentActivity implements View.OnClickListener, GetSmsAction.Inter_querysms, LoginAction.Inter_login {
 
-
-    private TextView btn_getverify;
-    private EditText et_mobile;
+    private Button btn_send;
+    private EditText et_phone;
     private EditText et_verify;
     private ImageView iv_delete_phone;
-    private Button btn_submit;
+    private Button btn_login;
     private String st_phone;
 
     @Override
@@ -52,29 +51,29 @@ public class ActivityLogin extends ParentActivity implements View.OnClickListene
 
     @Override
     protected void onCreateInitView() {
-        et_mobile.addTextChangedListener(new LoginPhoneEditextChangeListner(this,btn_submit,iv_delete_phone));
+        et_phone.addTextChangedListener(new LoginPhoneEditextChangeListner(this,btn_login,iv_delete_phone));
         iv_delete_phone.setOnClickListener(this);
-        btn_submit.setOnClickListener(this);
-        btn_getverify.setOnClickListener(this);
+        btn_login.setOnClickListener(this);
+        btn_send.setOnClickListener(this);
     }
 
     @Override
     protected void onCreatebindView() {
-        btn_getverify = (TextView)findViewById(R.id.btn_getverify);
-        et_mobile = (EditText)findViewById(R.id.et_mobile);
+        btn_send = findViewById(R.id.btn_send);
+        et_phone = (EditText)findViewById(R.id.et_phone);
         et_verify = (EditText)findViewById(R.id.et_verify);
         iv_delete_phone = (ImageView)findViewById(R.id.iv_delete_phone);
-        btn_submit = (Button)findViewById(R.id.btn_submit);
+        btn_login = (Button)findViewById(R.id.btn_login);
     }
 
     @Override
     public void onClick(View view) {
         int id=view.getId();
-        st_phone = et_mobile.getText().toString();
+        st_phone = et_phone.getText().toString();
         String st_vertify= et_verify.getText().toString();
         if(id==R.id.iv_delete_phone){
-            et_mobile.setText("");
-        }else if(id==R.id.btn_submit){
+            et_phone.setText("");
+        }else if(id==R.id.btn_login){
             if(TextUtils.isEmpty(st_phone)||TextUtils.isEmpty(st_vertify)){
                 ToastUtils.showToast(this,getString(R.string.login_promt_notinputinfo));
                 return;
@@ -90,7 +89,7 @@ public class ActivityLogin extends ParentActivity implements View.OnClickListene
             showProgress();
             LoginAction loginAction=new LoginAction(this,this);
             loginAction.sendAction(st_phone,st_vertify);
-        }else if(id==R.id.btn_getverify){
+        }else if(id==R.id.btn_send){
             if(TextUtils.isEmpty(st_phone)){
                 ToastUtils.showToast(this,getString(R.string.login_promt_notinputphone));
                 return;
@@ -99,7 +98,7 @@ public class ActivityLogin extends ParentActivity implements View.OnClickListene
                 ToastUtils.showToast(this,getString(R.string.login_promt_phoneform_error));
                 return;
             }
-            CountDownTimerUtils countDownTimerUtils = new CountDownTimerUtils(btn_getverify, 60000, 1000);
+            CountDownTimerUtils countDownTimerUtils = new CountDownTimerUtils(btn_send, 60000, 1000);
             countDownTimerUtils.start();
             showProgress();
             GetSmsAction getSmsAction=new GetSmsAction(this,this);

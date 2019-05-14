@@ -58,8 +58,8 @@ public class ActivityQrcode extends BackgroundTitleActivity implements QueryQrUs
     @Override
     protected void onCreateInitView() {
         super.onCreateInitView();
-        setTitle(getString(R.string.activtiy_qrcode_title));
-        setMyTitleColor(R.color.transparency);
+//        setTitle(getString(R.string.activtiy_qrcode_title));
+//        setMyTitleColor(R.color.transparency);
     }
 
     @Override

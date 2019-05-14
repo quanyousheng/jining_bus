@@ -37,7 +37,7 @@
 
     <!--登录页面-->
     <color name="aty_login_getvertifycode_gray">#d7d7d7</color>
-    <color name="aty_login_notinputphone_button">#9cdffc</color>
+    <color name="aty_login_notinputphone_button">#e09197</color>
 
     <!--老年卡退款页面-->
     <color name="frg_seniorcardrefund_refund_balance">#f6a00b</color>
