@@ -1,94 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <LinearLayout
-        android:id="@+id/ll_qrcodeshow"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tv_qrcode_cardnum"
-            android:layout_width="match_parent"
-            android:layout_height="66dp"
-            android:background="@drawable/shape_frg_qrcode_cardnum"
-            android:gravity="center"
-            android:textColor="@color/comon_text_black_most"
-            android:textSize="16dp"></TextView>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white">
-
-            <ImageView
-                android:id="@+id/iv_qrcode"
-                android:layout_width="230dp"
-                android:layout_height="230dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp" />
-
-            <TextView
-                android:id="@+id/tv_refresh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/iv_qrcode"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="14dp"
-                android:drawableLeft="@drawable/frg_qrcode_isrefresh"
-                android:drawablePadding="5dp"
-                android:gravity="center"
-                android:text="@string/frg_qrcode_is_refresh"
-                android:textColor="@color/frg_qrcodeshow_refresh"
-                android:textSize="15dp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/frg_qrcode_center_dashline">
-
-            <ImageView
-                android:layout_width="260dp"
-                android:layout_height="2dp"
-                android:layout_centerInParent="true"
-                android:background="@drawable/dash_line_small"
-                android:layerType="software" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_frg_qrcode_paytype"
-            android:paddingTop="18dp"
-            android:paddingBottom="26dp">
-
-            <TextView
-                android:id="@+id/tv_qrcode_paytype"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:clickable="true"
-                android:drawableLeft="@drawable/frg_qrcode_paytype_purse"
-                android:drawablePadding="6dp"
-                android:text="@string/frg_qrcode_paytypelater_mypurse"
-                android:textColor="@color/comon_text_black_most"
-                android:textSize="15dp" />
-        </RelativeLayout>
-    </LinearLayout>
-    <!--<TextView
-        android:id="@+id/tv_topaypurse"
+    <android.support.constraint.Guideline
+        android:id="@+id/guide_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/frg_qrcode_topay"
-        android:textColor="@color/white"
-        android:layout_below="@id/ll_qrcodeshow"
-        android:layout_marginTop="50dp"
-        android:layout_centerHorizontal="true"
-        android:textSize="14dp"/>-->
-</RelativeLayout>
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.31" />
+
+    <ImageView
+        android:id="@+id/iv_bg"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/qr_bg"
+        app:layout_constraintHeight_percent="0.57"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/view_rec"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/qr_rect"
+        app:layout_constraintDimensionRatio="278:358"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guide_line" />
+
+    <TextView
+        android:id="@+id/tv_qrcode_cardnum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="无法显示卡号"
+        android:textColor="@color/comon_text_black_most"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="@id/view_rec"
+        app:layout_constraintRight_toRightOf="@id/view_rec"
+        app:layout_constraintTop_toTopOf="@id/view_rec" />
+
+    <ImageView
+        android:id="@+id/iv_qrcode"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        app:layout_constraintBottom_toBottomOf="@id/view_rec"
+        app:layout_constraintLeft_toLeftOf="@id/view_rec"
+        app:layout_constraintRight_toRightOf="@id/view_rec"
+        app:layout_constraintTop_toTopOf="@id/view_rec" />
+
+    <TextView
+        android:id="@+id/tv_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_qrcode"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="14dp"
+        android:drawableLeft="@drawable/frg_qrcode_isrefresh"
+        android:drawablePadding="5dp"
+        android:text="@string/frg_qrcode_is_refresh"
+        android:textColor="@color/frg_qrcodeshow_refresh"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/tv_qrcode_paytype"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:drawableLeft="@drawable/icon_recharge"
+        android:drawablePadding="10dp"
+        android:text="立即充值"
+        android:textColor="@color/app_theme"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_refresh"
+        app:layout_constraintBottom_toBottomOf="@id/view_rec"
+        app:layout_constraintLeft_toLeftOf="@id/view_rec"
+        app:layout_constraintRight_toRightOf="@id/view_rec" />
+
+</android.support.constraint.ConstraintLayout>

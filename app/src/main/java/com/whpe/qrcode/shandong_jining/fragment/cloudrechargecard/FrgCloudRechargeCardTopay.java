@@ -76,8 +76,8 @@ public class FrgCloudRechargeCardTopay extends Fragment implements PayUnifyActio
         gv_money = (GridView)content.findViewById(R.id.gvmoney);
         btn_submit = (Button)content.findViewById(R.id.btn_submit);
         lv_paytype = (ListView)content.findViewById(R.id.lv_paytype);
-        et_cardnoagain = (EditText)content.findViewById(R.id.et_cardnoagain);
-        et_cardno = (EditText)content.findViewById(R.id.et_cardno);
+        et_cardnoagain = (EditText)content.findViewById(R.id.et_card_again);
+        et_cardno = (EditText)content.findViewById(R.id.et_card);
     }
 
     private void initView() {
