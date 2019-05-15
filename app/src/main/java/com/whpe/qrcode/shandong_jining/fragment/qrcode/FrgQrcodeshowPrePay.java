@@ -13,6 +13,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tomyang.whpe.qrcode.utils.extension.StringExtKt;
+import com.tomyang.whpe.qrcode.utils.numberFormat;
 import com.whpe.qrcode.shandong_jining.R;
 import com.whpe.qrcode.shandong_jining.activity.ActivityMypurse;
 import com.whpe.qrcode.shandong_jining.activity.ActivityQrcode;
@@ -20,6 +22,7 @@ import com.whpe.qrcode.shandong_jining.bigtools.GlobalConfig;
 import com.whpe.qrcode.shandong_jining.bigtools.MyDrawableUtils;
 import com.whpe.qrcode.shandong_jining.bigtools.qrCreate;
 
+import java.util.ArrayList;
 
 /**
  * Created by yang on 2018/10/3.
@@ -82,9 +85,18 @@ public class FrgQrcodeshowPrePay extends Fragment implements View.OnClickListene
         WindowManager wm = (WindowManager) activity
                 .getSystemService(Context.WINDOW_SERVICE);
         int width = wm.getDefaultDisplay().getWidth();
-        String decode_qrdata=activity.getQrcodedata();
+//        String decode_qrdata=activity.getQrcodedata();
 
-        Bitmap bt= qrCreate.createQR(decode_qrdata,width,width);
+
+        String decode_qrdata= numberFormat.ByteArrToHex(GlobalConfig.HEX_QRCODE_HEAD.getBytes(),0,GlobalConfig.HEX_QRCODE_HEAD.getBytes().length)+activity.getQrcodedata();
+        ArrayList<String> decodes= StringExtKt.splitByLen(decode_qrdata,2);
+        StringBuffer st_decode=new StringBuffer();
+        for(String decode:decodes){
+            st_decode.append("\\0x"+decode);
+        }
+        String decode_hexqrdata=st_decode.toString();
+
+        Bitmap bt= qrCreate.createQR(decode_hexqrdata,width,width);
         iv_qrcode.setImageBitmap(bt);
     }
 

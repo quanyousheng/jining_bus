@@ -45,7 +45,7 @@ public class FrgCloudRechargeCardTopay extends Fragment implements PayUnifyActio
     private MoneyGridRechargeCardAdapter moneyGridAdapter;
     private String rechargemoney;
     private Button btn_submit;
-    private ListView lv_paytype;
+    private GridView gv_paytype;
     private RechargeCardPaytypeLvAdapter rechargeCardPaytypeLvAdapter;
     private ArrayList<PaytypeRechargeCardBean> paytypeRechargeCardBeans=new ArrayList<>();
     private LoadQrcodeParamBean loadQrcodeParamBean=new LoadQrcodeParamBean();
@@ -75,7 +75,7 @@ public class FrgCloudRechargeCardTopay extends Fragment implements PayUnifyActio
     private void bindView() {
         gv_money = (GridView)content.findViewById(R.id.gvmoney);
         btn_submit = (Button)content.findViewById(R.id.btn_submit);
-        lv_paytype = (ListView)content.findViewById(R.id.lv_paytype);
+        gv_paytype = content.findViewById(R.id.gv_paytype);
         et_cardnoagain = (EditText)content.findViewById(R.id.et_card_again);
         et_cardno = (EditText)content.findViewById(R.id.et_card);
     }
@@ -117,8 +117,8 @@ public class FrgCloudRechargeCardTopay extends Fragment implements PayUnifyActio
     private void initListViewPaytype() {
         initPaytype();
         rechargeCardPaytypeLvAdapter = new RechargeCardPaytypeLvAdapter(context,paytypeRechargeCardBeans);
-        lv_paytype.setAdapter(rechargeCardPaytypeLvAdapter);
-        lv_paytype.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gv_paytype.setAdapter(rechargeCardPaytypeLvAdapter);
+        gv_paytype.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 rechargeCardPaytypeLvAdapter.setPaytypePosition(i);

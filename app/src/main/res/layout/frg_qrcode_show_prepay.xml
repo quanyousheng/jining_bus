@@ -60,30 +60,31 @@
         android:id="@+id/tv_refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_qrcode"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="14dp"
         android:drawableLeft="@drawable/frg_qrcode_isrefresh"
         android:drawablePadding="5dp"
         android:text="@string/frg_qrcode_is_refresh"
         android:textColor="@color/frg_qrcodeshow_refresh"
-        android:textSize="15dp" />
+        android:textSize="15dp"
+        app:layout_constraintBottom_toTopOf="@id/tv_qrcode_paytype"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_qrcode" />
 
     <TextView
         android:id="@+id/tv_qrcode_paytype"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:layout_marginBottom="30dp"
         android:drawableLeft="@drawable/icon_recharge"
         android:drawablePadding="10dp"
         android:text="立即充值"
         android:textColor="@color/app_theme"
         android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/tv_refresh"
         app:layout_constraintBottom_toBottomOf="@id/view_rec"
         app:layout_constraintLeft_toLeftOf="@id/view_rec"
-        app:layout_constraintRight_toRightOf="@id/view_rec" />
+        app:layout_constraintRight_toRightOf="@id/view_rec"
+        app:layout_constraintTop_toBottomOf="@id/tv_refresh" />
 
 </android.support.constraint.ConstraintLayout>

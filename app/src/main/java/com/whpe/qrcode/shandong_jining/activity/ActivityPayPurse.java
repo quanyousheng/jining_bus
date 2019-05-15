@@ -45,7 +45,7 @@ public class ActivityPayPurse extends BackgroundTitleActivity implements PayUnif
     private Float float_money;
     private String rechargemoney;
     private Button btn_submit;
-    private ListView lv_paytype;
+    private GridView gvPayType;
     private PaypursePaytypeLvAdapter paypursePaytypeLvAdapter;
     public LoadQrcodeParamBean loadQrcodeParamBean = new LoadQrcodeParamBean();
     private ArrayList<PaytypePrepayBean> paytypePrepayBeans = new ArrayList<>();
@@ -132,8 +132,8 @@ public class ActivityPayPurse extends BackgroundTitleActivity implements PayUnif
     //填充支付方式选择目录
     private void initListViewPaytype() {
         paypursePaytypeLvAdapter = new PaypursePaytypeLvAdapter(this, paytypePrepayBeans);
-        lv_paytype.setAdapter(paypursePaytypeLvAdapter);
-        lv_paytype.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gvPayType.setAdapter(paypursePaytypeLvAdapter);
+        gvPayType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 paypursePaytypeLvAdapter.setPaytypePosition(i);
@@ -274,9 +274,9 @@ public class ActivityPayPurse extends BackgroundTitleActivity implements PayUnif
     @Override
     protected void onCreatebindView() {
         super.onCreatebindView();
-        gv_money = (GridView) findViewById(R.id.gvmoney);
-        btn_submit = (Button) findViewById(R.id.btn_submit);
-        lv_paytype = (ListView) findViewById(R.id.lv_paytype);
+        gv_money = findViewById(R.id.gvmoney);
+        btn_submit =  findViewById(R.id.btn_submit);
+        gvPayType = findViewById(R.id.gvPayType);
     }
 
     @Override

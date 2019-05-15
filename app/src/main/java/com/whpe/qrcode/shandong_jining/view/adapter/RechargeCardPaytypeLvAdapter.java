@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.whpe.qrcode.shandong_jining.R;
@@ -65,27 +66,29 @@ public class RechargeCardPaytypeLvAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if(view==null){
-            view=LayoutInflater.from(mycontext).inflate(R.layout.item_rechargecard_paytype,viewGroup,false);
+            view=LayoutInflater.from(mycontext).inflate(R.layout.item_paypurse_paytype,viewGroup,false);
         }
         PaytypeRechargeCardBean paytypePrepayBean=paytypePrepayBeans.get(i);
-        ImageView iv_paytype=(ImageView) view.findViewById(R.id.iv_paytype);
-        if(paytypePrepayBean.getPayWayCode().equals(GlobalConfig.LOADPARAM_QROPAYTYPE_PREPAYWEICHAT)){
-            iv_paytype.setImageDrawable(MyDrawableUtils.getDrawble(mycontext,R.drawable.aty_paypurse_paytype_weichat));
-        }else if(paytypePrepayBean.getPayWayCode().equals(GlobalConfig.LOADPARAM_QROPAYTYPE_PREPAYCCB)){
-            iv_paytype.setImageDrawable(MyDrawableUtils.getDrawble(mycontext,R.drawable.aty_paypurse_paytype_ccb));
-        }else if(paytypePrepayBean.getPayWayCode().equals(GlobalConfig.LOADPARAM_QROPAYTYPE_PREPAYUNION)){
-            iv_paytype.setImageDrawable(MyDrawableUtils.getDrawble(mycontext,R.drawable.aty_paypurse_paytype_union));
-        }else if(paytypePrepayBean.getPayWayCode().equals(GlobalConfig.LOADPARAM_QROPAYTYPE_PREPAYALIPAY)){
-            iv_paytype.setImageDrawable(MyDrawableUtils.getDrawble(mycontext,R.drawable.aty_paypurse_paytype_alipay));
+
+        TextView tv_paytype = view.findViewById(R.id.tv_paytype);
+        ImageView iv_paytype = view.findViewById(R.id.iv_paytype);
+        LinearLayout ll_paytype = view.findViewById(R.id.ll_paytype);
+        if (int_paytype_select == i) {
+            ll_paytype.setBackground(mycontext.getResources().getDrawable(R.drawable.square_select));
+        } else {
+            ll_paytype.setBackground(mycontext.getResources().getDrawable(R.drawable.rect_radius_bg));
         }
-        TextView tv_paytype=(TextView)view.findViewById(R.id.tv_paytype);
         tv_paytype.setText(paytypePrepayBean.getPayWayName());
-        ImageView iv_paytype_select=(ImageView)view.findViewById(R.id.iv_paytype_select);
-        if(int_paytype_select==i){
-            iv_paytype_select.setImageDrawable(mycontext.getResources().getDrawable(R.drawable.aty_paypurse_paytype_select));
-        }else {
-            iv_paytype_select.setImageDrawable(mycontext.getResources().getDrawable(R.drawable.aty_paypurse_paytype_noselect));
+        if (paytypePrepayBean.getPayWayCode().equals(GlobalConfig.LOADPARAM_QROPAYTYPE_PREPAYWEICHAT)) {
+            iv_paytype.setImageDrawable(MyDrawableUtils.getDrawble(mycontext, R.drawable.weixin));
+        } else if (paytypePrepayBean.getPayWayCode().equals(GlobalConfig.LOADPARAM_QROPAYTYPE_PREPAYCCB)) {
+            iv_paytype.setImageDrawable(MyDrawableUtils.getDrawble(mycontext, R.drawable.jiansheyihang));
+        } else if (paytypePrepayBean.getPayWayCode().equals(GlobalConfig.LOADPARAM_QROPAYTYPE_PREPAYUNION)) {
+            iv_paytype.setImageDrawable(MyDrawableUtils.getDrawble(mycontext, R.drawable.yinlian));
+        } else if (paytypePrepayBean.getPayWayCode().equals(GlobalConfig.LOADPARAM_QROPAYTYPE_PREPAYALIPAY)) {
+            iv_paytype.setImageDrawable(MyDrawableUtils.getDrawble(mycontext, R.drawable.zhifubao));
         }
+
         return view;
     }
 }
