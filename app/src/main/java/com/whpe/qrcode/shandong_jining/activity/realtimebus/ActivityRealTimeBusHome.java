@@ -73,7 +73,7 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
                 sucLongitude = location.getLongitude();
                 sucLatitude = location.getLatitude();
-                ToastUtils.showToast(activity, "经度：" + sucLongitude + ",纬度：" + sucLatitude);
+//                ToastUtils.showToast(activity, "经度：" + sucLongitude + ",纬度：" + sucLatitude);
                 Log.e(TAG, "经度：" + sucLongitude + ",纬度：" + sucLatitude);
                 showProgress();
                 nearbyStatInfoAction = new NearbyStatInfoAction(ActivityRealTimeBusHome.this, ActivityRealTimeBusHome.this);
@@ -181,50 +181,6 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
                 return false;
             }
         });
-    }
-
-    private boolean checkGpsIsOpen() {
-        boolean isOpen;
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        isOpen = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        return isOpen;
-    }
-
-    private void openGPSSEtting() {
-        if (!checkGpsIsOpen()) {
-            new AlertDialog.Builder(this)
-                    .setMessage("为了定位准确，请打开GPS定位")
-                    //  取消选项
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            // 关闭dialog
-                            dialogInterface.dismiss();
-                        }
-                    })
-                    //  确认选项
-                    .setPositiveButton("前往设置", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            //跳转到手机原生设置页面
-                            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                            startActivityForResult(intent, GPS_REQUEST_CODE);
-                        }
-                    })
-                    .setCancelable(false)
-                    .show();
-        } else {
-            ToastUtils.showToast(activity, "gps定位已开启");
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GPS_REQUEST_CODE) {
-            openGPSSEtting();
-        }
     }
 
     @Override

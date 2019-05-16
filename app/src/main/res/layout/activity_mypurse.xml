@@ -19,7 +19,7 @@
         android:id="@+id/tv_balance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableTop="@drawable/qianbao"
+        android:drawableTop="@drawable/purse"
         android:drawablePadding="20dp"
         android:gravity="center_horizontal"
         android:text="我的余额"

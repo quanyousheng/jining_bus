@@ -12,11 +12,12 @@ import com.whpe.qrcode.shandong_jining.net.action.QueryQrUserInfoAction;
 import com.whpe.qrcode.shandong_jining.net.getbean.LoadQrcodeParamBean;
 import com.whpe.qrcode.shandong_jining.net.getbean.QrcodeStatusBean;
 import com.whpe.qrcode.shandong_jining.parent.BackgroundTitleActivity;
+import com.whpe.qrcode.shandong_jining.parent.NormalTitleActivity;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-public class ActivityMypurse extends BackgroundTitleActivity implements QueryQrUserInfoAction.Inter_queryqruserinfo {
+public class ActivityMypurse extends NormalTitleActivity implements QueryQrUserInfoAction.Inter_queryqruserinfo {
 
     private Button btn_recharge;
     private LoadQrcodeParamBean loadQrcodeParamBean=new LoadQrcodeParamBean();
@@ -43,7 +44,6 @@ public class ActivityMypurse extends BackgroundTitleActivity implements QueryQrU
     @Override
     protected void onCreateInitView() {
         super.onCreateInitView();
-        setMyTitleColor(R.color.app_theme);
         setTitle(getString(R.string.mypurse_title));
 
         btn_recharge.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +84,7 @@ public class ActivityMypurse extends BackgroundTitleActivity implements QueryQrU
                 String balance=new BigDecimal(qrcodeStatusBean.getBalance()).divide(new BigDecimal(100))
                         .toString();
                 //tv_money.setText(balance);
-                tv_money.setText(String.format("%.2f",Double.parseDouble(balance)));
+                tv_money.setText(String.format("￥%.2f",Double.parseDouble(balance)));
             }else {
                 if(rescode.equals(GlobalConfig.RESCODE_NOTOPENQRCARD)){
                     toQrcodeActivity(getinfo);
