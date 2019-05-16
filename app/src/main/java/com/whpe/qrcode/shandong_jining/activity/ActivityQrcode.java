@@ -17,6 +17,7 @@ import com.whpe.qrcode.shandong_jining.net.getbean.InitQrcodeBean;
 import com.whpe.qrcode.shandong_jining.net.getbean.LoadQrcodeParamBean;
 import com.whpe.qrcode.shandong_jining.net.getbean.QrcodeStatusBean;
 import com.whpe.qrcode.shandong_jining.parent.BackgroundTitleActivity;
+import com.whpe.qrcode.shandong_jining.parent.NormalTitleActivity;
 import com.whpe.qrcode.shandong_jining.toolbean.PaytypeLaterPayBean;
 import com.whpe.qrcode.shandong_jining.utils.Base64;
 
@@ -27,7 +28,7 @@ import java.util.List;
  * Created by yang on 2018/10/3.
  */
 
-public class ActivityQrcode extends BackgroundTitleActivity implements QueryQrUserInfoAction.Inter_queryqruserinfo, InitQrcodeAction.Inter_initqrcode {
+public class ActivityQrcode extends NormalTitleActivity implements QueryQrUserInfoAction.Inter_queryqruserinfo, InitQrcodeAction.Inter_initqrcode {
     private FrgQrcodeshowPrePay frgQrcodeshowPrePay;
     private FrgQrcodeExceptionPrePay frgQrcodeExceptionPrePay;
     private QueryQrUserInfoAction queryQrUserInfoAction;
