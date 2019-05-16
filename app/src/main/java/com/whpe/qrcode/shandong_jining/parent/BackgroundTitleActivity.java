@@ -23,8 +23,8 @@ public class BackgroundTitleActivity extends ParentActivity {
         if (resourceId > 0) {
             result = getResources().getDimensionPixelSize(resourceId);
         }
-        LinearLayout.LayoutParams lp= (LinearLayout.LayoutParams) rl_title.getLayoutParams();
-        lp.setMargins(0,result,0,0);
+        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) rl_title.getLayoutParams();
+        lp.setMargins(0, result, 0, 0);
     }
 
     @Override

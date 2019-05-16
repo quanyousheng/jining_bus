@@ -41,9 +41,9 @@
     </string-array>
 
     <string-array name = "paypurse_paytype_select" >
-        <!--<item> 建行充值 </item>-->
-        <item> 微信充值 </item>
-        <!--<item> 银联充值 </item>-->
+        <!--<item> 建行 </item>-->
+        <item> 微信 </item>
+        <!--<item> 银联</item>-->
     </string-array>
 
     <integer-array name="paypurse_paytype_select_img">

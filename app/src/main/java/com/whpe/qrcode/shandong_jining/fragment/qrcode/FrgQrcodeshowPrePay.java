@@ -17,6 +17,7 @@ import com.tomyang.whpe.qrcode.utils.extension.StringExtKt;
 import com.tomyang.whpe.qrcode.utils.numberFormat;
 import com.whpe.qrcode.shandong_jining.R;
 import com.whpe.qrcode.shandong_jining.activity.ActivityMypurse;
+import com.whpe.qrcode.shandong_jining.activity.ActivityPayPurse;
 import com.whpe.qrcode.shandong_jining.activity.ActivityQrcode;
 import com.whpe.qrcode.shandong_jining.bigtools.GlobalConfig;
 import com.whpe.qrcode.shandong_jining.bigtools.MyDrawableUtils;
@@ -111,7 +112,7 @@ public class FrgQrcodeshowPrePay extends Fragment implements View.OnClickListene
     public void onClick(View view) {
         int id=view.getId();
         if(id==R.id.tv_qrcode_paytype){
-            activity.transAty(ActivityMypurse.class);
+            activity.transAty(ActivityPayPurse.class);
         }else if(id==R.id.iv_qrcode){
             activity.requestForQrcode();
         }

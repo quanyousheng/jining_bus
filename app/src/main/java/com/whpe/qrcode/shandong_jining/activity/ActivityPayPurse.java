@@ -26,6 +26,7 @@ import com.whpe.qrcode.shandong_jining.net.getbean.payunity.AlipayBean;
 import com.whpe.qrcode.shandong_jining.net.getbean.payunity.UnionBean;
 import com.whpe.qrcode.shandong_jining.net.getbean.payunity.WeichatBean;
 import com.whpe.qrcode.shandong_jining.parent.BackgroundTitleActivity;
+import com.whpe.qrcode.shandong_jining.parent.NormalTitleActivity;
 import com.whpe.qrcode.shandong_jining.toolbean.PaytypePrepayBean;
 import com.whpe.qrcode.shandong_jining.view.adapter.MoneyGridAdapter;
 import com.whpe.qrcode.shandong_jining.view.adapter.PaypursePaytypeLvAdapter;
@@ -38,7 +39,7 @@ import java.util.List;
  * Created by yang on 2018/9/20.
  */
 
-public class ActivityPayPurse extends BackgroundTitleActivity implements PayUnifyAction.Inter_queryqruserinfo, QueryQrUserInfoAction.Inter_queryqruserinfo {
+public class ActivityPayPurse extends NormalTitleActivity implements PayUnifyAction.Inter_queryqruserinfo, QueryQrUserInfoAction.Inter_queryqruserinfo {
 
     private GridView gv_money;
     private MoneyGridAdapter moneyGridAdapter;
@@ -88,7 +89,7 @@ public class ActivityPayPurse extends BackgroundTitleActivity implements PayUnif
     protected void onCreateInitView() {
         super.onCreateInitView();
         setTitle(getString(R.string.paypurse_title));
-        setMyTitleColor(R.color.app_theme);
+//        setMyTitleColor(R.color.app_theme);
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -200,7 +201,7 @@ public class ActivityPayPurse extends BackgroundTitleActivity implements PayUnif
         String money = new BigDecimal(i).divide(new BigDecimal(100))
                 .toString();
         float_money = Float.parseFloat(money);
-        btn_submit.setText(getString(R.string.paypurse_btntext_default) + String.format("%.2f", float_money));
+//        btn_submit.setText(getString(R.string.paypurse_btntext_default) + String.format("%.2f", float_money));
     }
 
     //填充实际发送金额数据
@@ -213,7 +214,7 @@ public class ActivityPayPurse extends BackgroundTitleActivity implements PayUnif
     private void initSelectMoney(int i) {
         String[] money_selects = getResources().getStringArray(R.array.paypurse_money_select);
         float_money = Float.parseFloat(money_selects[i]);
-        btn_submit.setText(String.format(getString(R.string.paypurse_btntext), float_money));
+//        btn_submit.setText(String.format(getString(R.string.paypurse_btntext), float_money));
     }
 
     private void solveGWPayCallback(ArrayList<String> getinfo) {
