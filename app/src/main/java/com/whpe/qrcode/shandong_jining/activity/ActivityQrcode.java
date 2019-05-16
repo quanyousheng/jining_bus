@@ -1,8 +1,11 @@
 package com.whpe.qrcode.shandong_jining.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 
 import com.whpe.qrcode.shandong_jining.R;
@@ -18,6 +21,7 @@ import com.whpe.qrcode.shandong_jining.net.getbean.LoadQrcodeParamBean;
 import com.whpe.qrcode.shandong_jining.net.getbean.QrcodeStatusBean;
 import com.whpe.qrcode.shandong_jining.parent.BackgroundTitleActivity;
 import com.whpe.qrcode.shandong_jining.parent.NormalTitleActivity;
+import com.whpe.qrcode.shandong_jining.parent.ParentActivity;
 import com.whpe.qrcode.shandong_jining.toolbean.PaytypeLaterPayBean;
 import com.whpe.qrcode.shandong_jining.utils.Base64;
 
@@ -28,7 +32,7 @@ import java.util.List;
  * Created by yang on 2018/10/3.
  */
 
-public class ActivityQrcode extends BackgroundTitleActivity implements QueryQrUserInfoAction.Inter_queryqruserinfo, InitQrcodeAction.Inter_initqrcode {
+public class ActivityQrcode extends ParentActivity implements QueryQrUserInfoAction.Inter_queryqruserinfo, InitQrcodeAction.Inter_initqrcode {
     private FrgQrcodeshowPrePay frgQrcodeshowPrePay;
     private FrgQrcodeExceptionPrePay frgQrcodeExceptionPrePay;
     private QueryQrUserInfoAction queryQrUserInfoAction;
@@ -37,30 +41,27 @@ public class ActivityQrcode extends BackgroundTitleActivity implements QueryQrUs
     public QrcodeStatusBean qrcodeStatusBean = new QrcodeStatusBean();
     public ArrayList<PaytypeLaterPayBean> paytypeLaterPayBeans = new ArrayList<PaytypeLaterPayBean>();
     private InitQrcodeBean initQrcodeBean;
+    private LinearLayout ll_content;
 
     @Override
     protected void afterLayout() {
-        super.afterLayout();
     }
 
     @Override
     protected void beforeLayout() {
-        super.beforeLayout();
         loadQrcodeParamBean = (LoadQrcodeParamBean) JsonComomUtils.parseAllInfo(sharePreferenceParam.getParamInfos(), loadQrcodeParamBean);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
 
     @Override
     protected void setActivityLayout() {
-        super.setActivityLayout();
         setContentView(R.layout.activtiy_qrcode);
     }
 
     @Override
     protected void onCreateInitView() {
-        super.onCreateInitView();
-        setTitle(getString(R.string.activtiy_qrcode_title));
-        setMyTitleColor(R.color.transparency);
+//        setTitle(getString(R.string.activtiy_qrcode_title));
+
     }
 
     @Override
@@ -72,7 +73,14 @@ public class ActivityQrcode extends BackgroundTitleActivity implements QueryQrUs
 
     @Override
     protected void onCreatebindView() {
-        super.onCreatebindView();
+        ll_content = findViewById(R.id.ll_content);
+
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        ll_content.setPadding(0,result,0,0);
     }
 
     //请求二维码用户信息以查看各种信息
@@ -265,6 +273,5 @@ public class ActivityQrcode extends BackgroundTitleActivity implements QueryQrUs
     public void dissmissQrProgress() {
         dissmissProgress();
     }
-
 
 }

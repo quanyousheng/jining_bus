@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fl_qrcode_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+
+    <FrameLayout
+        android:id="@+id/fl_qrcode_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <include layout="@layout/layout_titlebar" />
-
-    </LinearLayout>
-</FrameLayout>
+        android:layout_height="match_parent" />
+</LinearLayout>
