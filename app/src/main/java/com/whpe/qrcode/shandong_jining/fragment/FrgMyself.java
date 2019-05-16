@@ -54,12 +54,12 @@ public class FrgMyself extends Fragment {
     }
 
     private void initView() {
-        ((ImageView)(content.findViewById(R.id.tab_mypurse).findViewById(R.id.iv_tab_img))).setImageDrawable(getResources().getDrawable(R.drawable.frg_myself_mypurse));
-        ((ImageView)(content.findViewById(R.id.tab_deposit).findViewById(R.id.iv_tab_img))).setImageDrawable(getResources().getDrawable(R.drawable.frg_myself_deposit));
-        ((ImageView)(content.findViewById(R.id.tab_usehelp).findViewById(R.id.iv_tab_img))).setImageDrawable(getResources().getDrawable(R.drawable.frg_myself_usehelp));
+        ((ImageView)(content.findViewById(R.id.tab_mypurse).findViewById(R.id.iv_tab_img))).setImageDrawable(getResources().getDrawable(R.drawable.qianbao));
+        ((ImageView)(content.findViewById(R.id.tab_deposit).findViewById(R.id.iv_tab_img))).setImageDrawable(getResources().getDrawable(R.drawable.xfjl));
+        ((ImageView)(content.findViewById(R.id.tab_usehelp).findViewById(R.id.iv_tab_img))).setImageDrawable(getResources().getDrawable(R.drawable.sybz));
         ((ImageView)(content.findViewById(R.id.tab_call).findViewById(R.id.iv_tab_img))).setImageDrawable(getResources().getDrawable(R.drawable.frg_myself_call));
-        ((ImageView)(content.findViewById(R.id.tab_aboutus).findViewById(R.id.iv_tab_img))).setImageDrawable(getResources().getDrawable(R.drawable.frg_myself_aboutus));
-        ((ImageView)(content.findViewById(R.id.tab_settings).findViewById(R.id.iv_tab_img))).setImageDrawable(getResources().getDrawable(R.drawable.frg_myself_settings));
+        ((ImageView)(content.findViewById(R.id.tab_aboutus).findViewById(R.id.iv_tab_img))).setImageDrawable(getResources().getDrawable(R.drawable.gywm));
+        ((ImageView)(content.findViewById(R.id.tab_settings).findViewById(R.id.iv_tab_img))).setImageDrawable(getResources().getDrawable(R.drawable.shezhi));
 
         ((TextView)(content.findViewById(R.id.tab_mypurse).findViewById(R.id.tv_tab_title))).setText(context.getString(R.string.myself_tab_mypurse));
         ((TextView)(content.findViewById(R.id.tab_deposit).findViewById(R.id.tv_tab_title))).setText(context.getString(R.string.myself_tab_deposit));

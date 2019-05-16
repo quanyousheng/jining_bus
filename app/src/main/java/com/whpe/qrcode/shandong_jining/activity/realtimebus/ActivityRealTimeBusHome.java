@@ -3,9 +3,16 @@ package com.whpe.qrcode.shandong_jining.activity.realtimebus;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,6 +43,7 @@ import java.util.Map;
 public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements View.OnClickListener, NearbyStatInfoAction.Inter_NearbyStatInfo, QueryByStationIDAction.Inter_QueryByStationID {
     public static String TAG = "LocationUtil";
     private final int SDK_PERMISSION_REQUEST = 127;
+    private final int GPS_REQUEST_CODE = 100;
     private TextView tv_refresh;
     private Button btn_tosearch;
     private ExpandableListView expand_list;
@@ -65,6 +73,7 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
                 sucLongitude = location.getLongitude();
                 sucLatitude = location.getLatitude();
+                ToastUtils.showToast(activity, "经度：" + sucLongitude + ",纬度：" + sucLatitude);
                 Log.e(TAG, "经度：" + sucLongitude + ",纬度：" + sucLatitude);
                 showProgress();
                 nearbyStatInfoAction = new NearbyStatInfoAction(ActivityRealTimeBusHome.this, ActivityRealTimeBusHome.this);
@@ -133,6 +142,7 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
         tv_refresh.setOnClickListener(this);
     }
 
+
     @Override
     protected void onCreatebindView() {
         super.onCreatebindView();
@@ -171,6 +181,50 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
                 return false;
             }
         });
+    }
+
+    private boolean checkGpsIsOpen() {
+        boolean isOpen;
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        isOpen = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        return isOpen;
+    }
+
+    private void openGPSSEtting() {
+        if (!checkGpsIsOpen()) {
+            new AlertDialog.Builder(this)
+                    .setMessage("为了定位准确，请打开GPS定位")
+                    //  取消选项
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // 关闭dialog
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    //  确认选项
+                    .setPositiveButton("前往设置", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //跳转到手机原生设置页面
+                            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivityForResult(intent, GPS_REQUEST_CODE);
+                        }
+                    })
+                    .setCancelable(false)
+                    .show();
+        } else {
+            ToastUtils.showToast(activity, "gps定位已开启");
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GPS_REQUEST_CODE) {
+            openGPSSEtting();
+        }
     }
 
     @Override
