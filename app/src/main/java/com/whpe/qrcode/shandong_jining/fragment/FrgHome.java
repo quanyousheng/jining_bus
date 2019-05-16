@@ -50,7 +50,7 @@ import java.util.ArrayList;
  * Created by yang on 2018/9/30.
  */
 
-public class FrgHome extends Fragment implements View.OnClickListener, ShowNewsContentListAction.Inter_ShowNewsContentList {
+public class FrgHome extends Fragment implements ShowNewsContentListAction.Inter_ShowNewsContentList, ShowTopCardContentListAction.Inter_ShowCardContentList {
     private View content;
     private Context context;
     private ParentActivity activity;
@@ -61,6 +61,9 @@ public class FrgHome extends Fragment implements View.OnClickListener, ShowNewsC
     private SwipeRefreshLayout srl_refresh;
     private GridView gridView;
     private ImageView iv_qrcode;
+    private ViewPager vp_top;
+    private HomeTopPagerAdapter homeTopPagerAdapter;
+    private ViewPagerIndicator indicator_line;
 
     @Nullable
     @Override
@@ -82,10 +85,20 @@ public class FrgHome extends Fragment implements View.OnClickListener, ShowNewsC
 
     private void manageNewsAndTopCard() {
         if (activity.isNetworkAvailable(activity)) {
+            requestForTopCardList();
             requestForNewsList();
         } else {
             ToastUtils.showToast(activity, getString(R.string.app_notnet));
         }
+    }
+
+    public void requestForTopCardList() {
+        ShowTopCardContentListAction showTopCardContentListAction = new ShowTopCardContentListAction(activity, this);
+        String phone = "";
+        if (((ActivityMain) activity).sharePreferenceLogin.getLoginStatus()) {
+            phone = ((ActivityMain) activity).sharePreferenceLogin.getLoginPhone();
+        }
+        showTopCardContentListAction.sendAction(GlobalConfig.NEWSANDADVERLIST_PAGECHOOSE_HOMEPAGE, phone, GlobalConfig.NEWSANDADVERLIST_SPACEID_1);
     }
 
     public void requestForNewsList() {
@@ -106,8 +119,14 @@ public class FrgHome extends Fragment implements View.OnClickListener, ShowNewsC
         };
         gridView.setAdapter(new GridAdapter(getActivity()));
         initTitle();
+        initTop();
         initNews();
         initRefresh();
+    }
+
+    private void initTop() {
+        homeTopPagerAdapter = new HomeTopPagerAdapter(activity);
+        vp_top.setAdapter(homeTopPagerAdapter);
     }
 
     private void initRefresh() {
@@ -163,9 +182,9 @@ public class FrgHome extends Fragment implements View.OnClickListener, ShowNewsC
         gridView = content.findViewById(R.id.gridView);
         iv_qrcode = content.findViewById(R.id.iv_qrcode);
 //        iv_topcard=(ImageView)content.findViewById(R.id.iv_topcard);
-//        vp_top = (ViewPager)content.findViewById(R.id.vp_top);
+        vp_top = (ViewPager) content.findViewById(R.id.vp_top);
         srl_refresh = (SwipeRefreshLayout) content.findViewById(R.id.srl_refresh);
-//        indicator_line = (ViewPagerIndicator)content.findViewById(R.id.indicator_line);
+        indicator_line = (ViewPagerIndicator) content.findViewById(R.id.indicator_line);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -205,45 +224,6 @@ public class FrgHome extends Fragment implements View.OnClickListener, ShowNewsC
         });
     }
 
-
-    @Override
-    public void onClick(View view) {
-        int id = view.getId();
-        if (id == R.id.iv_qrcode) {
-
-        }
-
-//        if(id==R.id.iv_tabbusmap){
-//
-//        }else if(id==R.id.iv_tabrecharge){
-//            if(activity.sharePreferenceLogin.getLoginStatus()){
-//                activity.transAty(ActivityMypurse.class);
-//            }else {
-//                activity.transAty(ActivityLogin.class);
-//            }
-//        }else if(id==R.id.iv_tabusehelp){
-//            Bundle bundle=new Bundle();
-//            bundle.putString(GlobalConfig.TITLEWEBVIEW_WEBURL,GlobalConfig.USEHELP_URL);
-//            bundle.putString(GlobalConfig.TITLEWEBVIEW_WEBTITLE,getString(R.string.usehelp_title));
-//            ((ParentActivity)getActivity()).transAty(ActivityTitleWeb.class,bundle);
-//        }else if(id==R.id.iv_tabcallsus){
-//            Intent intent =  new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + getString(R.string.calls_phone)));
-//            startActivity(intent);
-//           //activity.transAty(ActivityRealTimeBusHome.class);
-//        }else if(id==R.id.iv_tabsearchstudentcard){
-//
-//        }else if(id==R.id.iv_tabcloudrechargecard){
-//            if(activity.sharePreferenceLogin.getLoginStatus()){
-//                ((ParentActivity)getActivity()).transAty(ActivityCloudRechargeCard.class);
-//            }else {
-//                activity.transAty(ActivityLogin.class);
-//            }
-//            //ToastUtils.showToast(activity,getString(R.string.activity_qrcode_function_notopen));
-//        }else if(id==R.id.iv_realTimeBus){
-//            activity.transAty(ActivityRealTimeBusHome.class);
-//        }
-    }
-
     @Override
     public void onShowNewsContentListSucces(QueryNewsListAckBody getinfo) {
         trueNewsBeans.clear();
@@ -263,7 +243,28 @@ public class FrgHome extends Fragment implements View.OnClickListener, ShowNewsC
 
     @Override
     public void onShowNewsContentListFaild(String resmsg) {
-
+        ToastUtils.showToast(getActivity(), resmsg);
     }
 
+    @Override
+    public void onShowCardContentListSucces(QueryNewsListAckBody getinfo) {
+        ArrayList<QueryNewsListItem> queryNewsListItems = getinfo.getContentList();
+        homeTopPagerAdapter.setImageList(queryNewsListItems);
+
+        if (queryNewsListItems != null && queryNewsListItems.size() > 1) {
+            //viewpager是固定页数, 传入viewpager即可
+            indicator_line.setViewPager(vp_top);
+
+            //viewpager是轮播图 ,如:总数为100000个 实际展示页为6个
+            //需要传入实际展示个数num
+            indicator_line.setViewPager(vp_top, queryNewsListItems.size());
+        }
+
+        homeTopPagerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onShowCardContentListFaild(String resmsg) {
+        ToastUtils.showToast(getActivity(), resmsg);
+    }
 }

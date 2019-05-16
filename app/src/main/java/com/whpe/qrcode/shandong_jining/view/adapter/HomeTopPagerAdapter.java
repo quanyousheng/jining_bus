@@ -7,11 +7,11 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.tomyang.whpe.qrcode.bean.ack.QueryNewsListItem;
 import com.whpe.qrcode.shandong_jining.R;
-import com.whpe.qrcode.shandong_jining.view.CustomRoundAngleImageView;
 
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class HomeTopPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         //Log.e("YC","??="+queryNewsListItemArrayList.get(position).getContentImage());
         View view=LayoutInflater.from(context).inflate(R.layout.item_home_vptop,container,false);
-        CustomRoundAngleImageView iv_top=(CustomRoundAngleImageView)view.findViewById(R.id.iv_top);
+        ImageView iv_top=(ImageView)view.findViewById(R.id.iv_top);
         /*if(queryNewsListItemArrayList==null||queryNewsListItemArrayList.size()==0){
             iv_top.setImageDrawable(MyDrawableUtils.getDrawble(context,R.drawable.frg_home_topcard));
             container.addView(view);

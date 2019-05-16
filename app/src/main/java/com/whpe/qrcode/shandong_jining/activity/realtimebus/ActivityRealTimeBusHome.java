@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -60,7 +61,8 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
     private boolean showLocationFailDialog = false;//显示定位失败弹出提示框
     private boolean showNoDataDialog = false;//显示不在济宁弹出提示框
     private QueryByStationIDAction queryByStationIDAction;
-    private boolean hasLocatePermission;//是否拥有定位权限
+    private  boolean hasLocatePermission;//是否拥有定位权限
+    private ArrayList<String> permissions = new ArrayList<String>();
 
     /*****
      * 定位结果回调，重写onReceiveLocation方法
@@ -216,9 +218,8 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
     @TargetApi(23)
     private void getPersimmions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            ArrayList<String> permissions = new ArrayList<String>();
             /***
-             * 在定位之前加入读取手机状态的动态权限申请,华为9.0手机没有此权限无法定位
+             * 在定位之前加入读取手机状态的动态权限申请
              */
             if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                 permissions.add(Manifest.permission.READ_PHONE_STATE);
@@ -233,12 +234,23 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
             if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
             }
-
-            if (permissions.size() > 0) {
-                hasLocatePermission = false;
-                requestPermissions(permissions.toArray(new String[permissions.size()]), SDK_PERMISSION_REQUEST);
+//         适配Android 9.0手机  必须有GPS位置权限才能定位
+            if (Build.VERSION.SDK_INT >= 28 && !checkGPSIsOpen()) {
+                showAlertDialog("请打开位置信息", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //跳转GPS设置界面
+                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivityForResult(intent, GPS_REQUEST_CODE);
+                    }
+                });
             } else {
-                hasLocatePermission = true;
+                if (permissions.size() > 0) {
+                    hasLocatePermission = false;
+                    requestPermissions(permissions.toArray(new String[permissions.size()]), SDK_PERMISSION_REQUEST);
+                } else {
+                    hasLocatePermission = true;
+                }
             }
         } else {
             hasLocatePermission = true;
@@ -262,6 +274,53 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
                 break;
         }
     }
+
+    /**
+     * 检测GPS是否打开
+     *
+     * @return
+     */
+    private boolean checkGPSIsOpen() {
+        boolean isOpen;
+        LocationManager locationManager = (LocationManager) this
+                .getSystemService(Context.LOCATION_SERVICE);
+        isOpen = locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER);
+        return isOpen;
+    }
+
+    /**
+     * 跳转GPS设置
+     */
+    @TargetApi(23)
+    private void openGPSSettings() {
+        if (checkGPSIsOpen()) {
+            if (permissions.size() > 0) {
+                hasLocatePermission = false;
+                requestPermissions(permissions.toArray(new String[permissions.size()]), SDK_PERMISSION_REQUEST);
+            } else {
+                hasLocatePermission = true;
+            }
+        } else {
+            showAlertDialog("请打开位置信息", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //跳转GPS设置界面
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivityForResult(intent, GPS_REQUEST_CODE);
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GPS_REQUEST_CODE) {
+            //做需要做的事情，比如再次检测是否打开GPS了 或者定位
+            openGPSSettings();
+        }
+    }
+
 
     @Override
     public void onQuerySuccess(ArrayList<String> getinfo) {
