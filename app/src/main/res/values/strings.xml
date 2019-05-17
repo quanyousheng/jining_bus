@@ -135,6 +135,7 @@
     <string name="login_promt_notinputphone">手机号不能为空</string>
     <string name="login_promt_phoneform_error">手机号格式错误</string>
     <string name="login_promt_vertifyform_error">验证码格式错误</string>
+    <string name="login_select_checkbox">请先勾选协议</string>
     <string name="login_sendsms_true">请求验证码发送成功</string>
     <string name="login_sendsms_false">请求验证码发送失败</string>
     <string name="login_login_false">登录失败</string>

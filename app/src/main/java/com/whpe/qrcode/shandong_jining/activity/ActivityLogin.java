@@ -1,8 +1,11 @@
 package com.whpe.qrcode.shandong_jining.activity;
 
+import android.content.Context;
+import android.support.constraint.Group;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 import com.whpe.qrcode.shandong_jining.R;
 import com.whpe.qrcode.shandong_jining.bigtools.GlobalConfig;
 import com.whpe.qrcode.shandong_jining.bigtools.IDUtils;
+import com.whpe.qrcode.shandong_jining.bigtools.SPHelper;
 import com.whpe.qrcode.shandong_jining.bigtools.ToastUtils;
 import com.whpe.qrcode.shandong_jining.net.JsonComomUtils;
 import com.whpe.qrcode.shandong_jining.net.action.GetSmsAction;
@@ -34,6 +38,8 @@ public class ActivityLogin extends NormalTitleActivity implements View.OnClickLi
     private ImageView iv_delete_phone;
     private Button btn_login;
     private String st_phone;
+    private CheckBox cb_select;
+    private TextView tv_rule;
 
     @Override
     protected void afterLayout() {
@@ -52,58 +58,67 @@ public class ActivityLogin extends NormalTitleActivity implements View.OnClickLi
 
     @Override
     protected void onCreateInitView() {
-        et_phone.addTextChangedListener(new LoginPhoneEditextChangeListner(this,btn_login,iv_delete_phone));
+        et_phone.addTextChangedListener(new LoginPhoneEditextChangeListner(this, btn_login, iv_delete_phone));
         iv_delete_phone.setOnClickListener(this);
         btn_login.setOnClickListener(this);
         btn_send.setOnClickListener(this);
+        tv_rule.setOnClickListener(this);
     }
 
     @Override
     protected void onCreatebindView() {
         btn_send = findViewById(R.id.btn_send);
-        et_phone = (EditText)findViewById(R.id.et_phone);
-        et_verify = (EditText)findViewById(R.id.et_verify);
-        iv_delete_phone = (ImageView)findViewById(R.id.iv_delete_phone);
-        btn_login = (Button)findViewById(R.id.btn_login);
+        et_phone = (EditText) findViewById(R.id.et_phone);
+        et_verify = (EditText) findViewById(R.id.et_verify);
+        iv_delete_phone = (ImageView) findViewById(R.id.iv_delete_phone);
+        btn_login = (Button) findViewById(R.id.btn_login);
+        cb_select = findViewById(R.id.cb_select);
+        tv_rule = findViewById(R.id.tv_rule);
     }
 
     @Override
     public void onClick(View view) {
-        int id=view.getId();
+        int id = view.getId();
         st_phone = et_phone.getText().toString();
-        String st_vertify= et_verify.getText().toString();
-        if(id==R.id.iv_delete_phone){
+        String st_vertify = et_verify.getText().toString();
+        if (id == R.id.iv_delete_phone) {
             et_phone.setText("");
-        }else if(id==R.id.btn_login){
-            if(TextUtils.isEmpty(st_phone)||TextUtils.isEmpty(st_vertify)){
-                ToastUtils.showToast(this,getString(R.string.login_promt_notinputinfo));
+        } else if (id == R.id.btn_login) {
+            if (TextUtils.isEmpty(st_phone) || TextUtils.isEmpty(st_vertify)) {
+                ToastUtils.showToast(this, getString(R.string.login_promt_notinputinfo));
                 return;
             }
-            if(!IDUtils.isMobileNO(st_phone)){
-                ToastUtils.showToast(this,getString(R.string.login_promt_phoneform_error));
+            if (!IDUtils.isMobileNO(st_phone)) {
+                ToastUtils.showToast(this, getString(R.string.login_promt_phoneform_error));
                 return;
             }
-            if(st_vertify.length()!=6){
-                ToastUtils.showToast(this,getString(R.string.login_promt_vertifyform_error));
+            if (st_vertify.length() != 6) {
+                ToastUtils.showToast(this, getString(R.string.login_promt_vertifyform_error));
+                return;
+            }
+            if (!cb_select.isChecked()) {
+                ToastUtils.showToast(this, getString(R.string.login_select_checkbox));
                 return;
             }
             showProgress();
-            LoginAction loginAction=new LoginAction(this,this);
-            loginAction.sendAction(st_phone,st_vertify);
-        }else if(id==R.id.btn_send){
-            if(TextUtils.isEmpty(st_phone)){
-                ToastUtils.showToast(this,getString(R.string.login_promt_notinputphone));
+            LoginAction loginAction = new LoginAction(this, this);
+            loginAction.sendAction(st_phone, st_vertify);
+        } else if (id == R.id.btn_send) {
+            if (TextUtils.isEmpty(st_phone)) {
+                ToastUtils.showToast(this, getString(R.string.login_promt_notinputphone));
                 return;
             }
-            if(!IDUtils.isMobileNO(st_phone)){
-                ToastUtils.showToast(this,getString(R.string.login_promt_phoneform_error));
+            if (!IDUtils.isMobileNO(st_phone)) {
+                ToastUtils.showToast(this, getString(R.string.login_promt_phoneform_error));
                 return;
             }
             CountDownTimerUtils countDownTimerUtils = new CountDownTimerUtils(btn_send, 60000, 1000);
             countDownTimerUtils.start();
             showProgress();
-            GetSmsAction getSmsAction=new GetSmsAction(this,this);
+            GetSmsAction getSmsAction = new GetSmsAction(this, this);
             getSmsAction.sendAction(st_phone);
+        } else if (id == R.id.tv_rule) {
+            transAty(ActivityUsehelp.class);
         }
     }
 
@@ -111,13 +126,13 @@ public class ActivityLogin extends NormalTitleActivity implements View.OnClickLi
     public void onQuerySmsSucces(ArrayList<String> getinfo) {
         dissmissProgress();
         try {
-            if(getinfo.get(0).equals(GlobalConfig.RESCODE_SUCCESS)){
-                ToastUtils.showToast(this,getString(R.string.login_sendsms_true));
-            }else {
-                ToastUtils.showToast(this,getinfo.get(1));
-                loginCheckAllUpadate(getinfo.get(0),getinfo);
+            if (getinfo.get(0).equals(GlobalConfig.RESCODE_SUCCESS)) {
+                ToastUtils.showToast(this, getString(R.string.login_sendsms_true));
+            } else {
+                ToastUtils.showToast(this, getinfo.get(1));
+                loginCheckAllUpadate(getinfo.get(0), getinfo);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             showExceptionAlertDialog();
         }
     }
@@ -125,31 +140,31 @@ public class ActivityLogin extends NormalTitleActivity implements View.OnClickLi
     @Override
     public void onQuerySmsFaild(String resmsg) {
         dissmissProgress();
-        ToastUtils.showToast(this,getString(R.string.login_sendsms_false));
+        ToastUtils.showToast(this, getString(R.string.login_sendsms_false));
     }
 
     @Override
     public void onLoginSucces(ArrayList<String> getinfo) {
         dissmissProgress();
         try {
-            String rescode=getinfo.get(0);
-            if(rescode.equals(GlobalConfig.RESCODE_SUCCESS)){
-                LoginBean loginBean=new LoginBean();
-                loginBean= (LoginBean) JsonComomUtils.parseAllInfo(getinfo.get(2),loginBean);
+            String rescode = getinfo.get(0);
+            if (rescode.equals(GlobalConfig.RESCODE_SUCCESS)) {
+                LoginBean loginBean = new LoginBean();
+                loginBean = (LoginBean) JsonComomUtils.parseAllInfo(getinfo.get(2), loginBean);
                 sharePreferenceLogin.saveLoginStatus(true);
                 sharePreferenceLogin.saveLoginPhone(st_phone);
                 sharePreferenceLogin.saveUid(loginBean.getUid());
                 sharePreferenceLogin.saveToken(loginBean.getToken());
                 finish();
-            }else {
-                if(TextUtils.isEmpty(getinfo.get(1))){
-                    ToastUtils.showToast(this,getString(R.string.login_login_false));
-                }else {
-                    ToastUtils.showToast(this,getinfo.get(1));
-                    loginCheckAllUpadate(rescode,getinfo);
+            } else {
+                if (TextUtils.isEmpty(getinfo.get(1))) {
+                    ToastUtils.showToast(this, getString(R.string.login_login_false));
+                } else {
+                    ToastUtils.showToast(this, getinfo.get(1));
+                    loginCheckAllUpadate(rescode, getinfo);
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             showExceptionAlertDialog();
         }
     }
@@ -157,7 +172,7 @@ public class ActivityLogin extends NormalTitleActivity implements View.OnClickLi
     @Override
     public void onLoginFaild(String resmsg) {
         dissmissProgress();
-        ToastUtils.showToast(this,getString(R.string.login_login_false));
+        ToastUtils.showToast(this, getString(R.string.login_login_false));
     }
 
 }

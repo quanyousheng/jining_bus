@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     //用于显示的钱包充值金额
-    <string-array name= "paypurse_money_select" >
+    <string-array name="paypurse_money_select">
         <!--<item> 0.01 </item>-->
         <!--<item> 1 </item>
         <item> 5 </item>
@@ -12,7 +12,7 @@
         <!--<item> 200 </item>-->
     </string-array>
     //用于发送的钱包充值数据
-    <string-array name= "paypurse_payunity_money" >
+    <string-array name="paypurse_payunity_money">
         <!--<item> 1 </item>-->
         <!--<item> 100 </item>
         <item> 500 </item>
@@ -24,15 +24,15 @@
     </string-array>
 
     //用于显示的充值卡片金额
-    <string-array name= "rechargecard_money_select" >
+    <string-array name="rechargecard_money_select">
         <item> 0.01 </item>
         <item> 20 </item>
         <item> 50 </item>
         <item> 100 </item>
-        <!--<item> 200 </item>-->
+        <item> 200 </item>
     </string-array>
     //用于发送的充值卡片数据
-    <string-array name= "rechargecard_payunity_money" >
+    <string-array name="rechargecard_payunity_money">
         <item> 1 </item>
         <item> 2000 </item>
         <item> 5000 </item>
@@ -40,7 +40,7 @@
         <!--<item> 20000 </item>-->
     </string-array>
 
-    <string-array name = "paypurse_paytype_select" >
+    <string-array name="paypurse_paytype_select">
         <!--<item> 建行 </item>-->
         <item> 微信 </item>
         <!--<item> 银联</item>-->
