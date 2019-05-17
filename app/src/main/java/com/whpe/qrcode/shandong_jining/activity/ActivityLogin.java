@@ -15,6 +15,7 @@ import com.whpe.qrcode.shandong_jining.net.JsonComomUtils;
 import com.whpe.qrcode.shandong_jining.net.action.GetSmsAction;
 import com.whpe.qrcode.shandong_jining.net.action.LoginAction;
 import com.whpe.qrcode.shandong_jining.net.getbean.LoginBean;
+import com.whpe.qrcode.shandong_jining.parent.NormalTitleActivity;
 import com.whpe.qrcode.shandong_jining.parent.ParentActivity;
 import com.whpe.qrcode.shandong_jining.view.CountDownTimerUtils;
 import com.whpe.qrcode.shandong_jining.view.listener.LoginPhoneEditextChangeListner;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
  * Created by yang on 2018/10/4.
  */
 
-public class ActivityLogin extends ParentActivity implements View.OnClickListener, GetSmsAction.Inter_querysms, LoginAction.Inter_login {
+public class ActivityLogin extends NormalTitleActivity implements View.OnClickListener, GetSmsAction.Inter_querysms, LoginAction.Inter_login {
 
     private Button btn_send;
     private EditText et_phone;

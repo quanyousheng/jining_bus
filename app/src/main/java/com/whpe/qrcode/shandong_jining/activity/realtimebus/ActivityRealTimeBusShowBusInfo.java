@@ -73,7 +73,7 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
     @Override
     protected void beforeLayout() {
         super.beforeLayout();
-        setMyTitleColor(R.color.white);
+        setMyTitleColor(R.color.comon_text_black_less);
         routeId = getIntent().getExtras().getInt("RouteID");
         stationId = getIntent().getExtras().getString("StationID");
         isChangeDir = getIntent().getExtras().getBoolean("isChangeDir", false);
@@ -141,31 +141,44 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
             if (rescode.equals(GlobalConfig.RESCODE_SUCCESS)) {
                 RouteStationInfoList routeStationInfoList = new RouteStationInfoList();
                 routeStationInfoList = (RouteStationInfoList) JsonComomUtils.parseAllInfo(getinfo.get(2), routeStationInfoList);
-                setTitle(routeStationInfoList.getDataList().get(0).getRouteName());
-                tv_routeName.setText(routeStationInfoList.getDataList().get(0).getRouteName());
-                segmentList = routeStationInfoList.getDataList().get(0).getSegmentList();
-                if (segmentList != null && segmentList.size() > 1) {
-                    if (!isChangeDir) {
-                        segmentId = segmentList.get(0).getSegmentID();
+//              如果数据没有正常返回就重新请求接口
+                if (routeStationInfoList != null && routeStationInfoList.getDataList() != null) {
+                    setTitle(routeStationInfoList.getDataList().get(0).getRouteName());
+                    tv_routeName.setText(routeStationInfoList.getDataList().get(0).getRouteName());
+                    segmentList = routeStationInfoList.getDataList().get(0).getSegmentList();
+                    if (segmentList != null && segmentList.size() > 1) {
+                        if (!isChangeDir) {
+                            segmentId = segmentList.get(0).getSegmentID();
+                        } else {
+                            segmentId = segmentList.get(1).getSegmentID();
+                        }
                     } else {
-                        segmentId = segmentList.get(1).getSegmentID();
+                        segmentId = segmentList.get(0).getSegmentID();
                     }
-                } else {
-                    segmentId = segmentList.get(0).getSegmentID();
-                }
-                realTimeInfoAction = new BusRealTimeInfoAction(this, this);
-                realTimeInfoAction.sendAction(routeId, segmentId);
+                    realTimeInfoAction = new BusRealTimeInfoAction(this, this);
+                    realTimeInfoAction.sendAction(routeId, segmentId);
 
-                if (onlyOnce) {
-                    onlyOnce = false;
-                    mHandler.sendEmptyMessageDelayed(TIMER, 15000);
+                    if (onlyOnce) {
+                        onlyOnce = false;
+                        mHandler.sendEmptyMessageDelayed(TIMER, 15000);
+                    }
+
+                } else {
+                    routeStationInfoAction.sendAction(routeId);
                 }
             } else {
                 checkAllUpadate(rescode, getinfo);
             }
         } catch (Exception e) {
             Log.e("EEE", e.toString());
-            showExceptionAlertDialog();
+//            showExceptionAlertDialog();
+            showAlertDialog("网络请求异常,请点击重试", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showProgress();
+                    routeStationInfoAction.sendAction(routeId);
+                }
+            });
         }
     }
 
@@ -235,7 +248,14 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
             }
         } catch (Exception e) {
             Log.e("EEE", e.toString());
-            showExceptionAlertDialog();
+//            showExceptionAlertDialog();
+            showAlertDialog("网络请求异常,请点击重试", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showProgress();
+                    routeStationInfoAction.sendAction(routeId);
+                }
+            });
         }
     }
 

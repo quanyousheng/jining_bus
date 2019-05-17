@@ -118,7 +118,7 @@ public class FrgHome extends Fragment implements ShowNewsContentListAction.Inter
             }
         };
         gridView.setAdapter(new GridAdapter(getActivity()));
-        initTitle();
+//        initTitle();
         initTop();
         initNews();
         initRefresh();
@@ -166,7 +166,6 @@ public class FrgHome extends Fragment implements ShowNewsContentListAction.Inter
                 activity.transAty(ActivityNewsAndAdvertiseWeb.class, bundle);
             }
         });
-
     }
 
     private void initTitle() {

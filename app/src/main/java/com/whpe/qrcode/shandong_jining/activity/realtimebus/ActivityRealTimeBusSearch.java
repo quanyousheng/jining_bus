@@ -97,45 +97,49 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
         });
     }
 
+    public void searchRoute() {
+        if (TextUtils.isEmpty(et_input.getText().toString().trim())) {
+            ToastUtils.showToast(this, "请输入线路再查询");
+        } else {
+            segmentList.clear();
+            segmentList1.clear();
+            route = Integer.parseInt(et_input.getText().toString().trim());
+            showProgress();
+            routeStationInfoAction = new RouteStationInfoAction(this, this);
+            switch (route) {
+                case 33:
+                    route = 331;
+                    break;
+                case 66:
+                    route = 661;
+                    break;
+                case 77:
+                    route = 771;
+                    break;
+                case 401:
+                    route = 4011;
+                    break;
+            }
+            routeStationInfoAction.sendAction(route);
+        }
+    }
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
             case R.id.btn_query:
-                if (TextUtils.isEmpty(et_input.getText().toString().trim())) {
-                    ToastUtils.showToast(this, "请输入线路再查询");
-                } else {
-                    segmentList.clear();
-                    segmentList1.clear();
-                    route = Integer.parseInt(et_input.getText().toString().trim());
-                    showProgress();
-                    routeStationInfoAction = new RouteStationInfoAction(this, this);
-                    switch (route) {
-                        case 33:
-                            route = 331;
-                            break;
-                        case 66:
-                            route = 661;
-                            break;
-                        case 77:
-                            route = 771;
-                            break;
-                        case 401:
-                            route = 4011;
-                            break;
-                    }
-                    routeStationInfoAction.sendAction(route);
-                }
+                searchRoute();
                 break;
             case R.id.tv_cancel:
                 et_input.setText("");
                 break;
             case R.id.tv_deleteHistory:
-                if (segmentList.size()>0){
+                if (segmentList.size() > 0) {
                     segmentList.clear();
                     adapter.notifyDataSetChanged();
                 }
-                if (segmentList1.size()>0){
+                if (segmentList1.size() > 0) {
                     segmentList1.clear();
                     adapter1.notifyDataSetChanged();
                 }
@@ -151,45 +155,56 @@ public class ActivityRealTimeBusSearch extends NormalTitleActivity implements Vi
             if (rescode.equals(GlobalConfig.RESCODE_SUCCESS)) {
                 RouteStationInfoList routeStationInfoList = new RouteStationInfoList();
                 routeStationInfoList = (RouteStationInfoList) JsonComomUtils.parseAllInfo(getinfo.get(2), routeStationInfoList);
-                if (routeStationInfoList.getDataList().size() == 0) {
-                    ToastUtils.showToast(ActivityRealTimeBusSearch.this, "未查询到该线路信息");
-                } else {
-                    if (routeStationInfoList.getDataList().get(0).getSegmentList().size() > 1) {
-                        segmentList.addAll(routeStationInfoList.getDataList().get(0).getSegmentList());
-                        adapter = new SearchRouteAdapter(segmentList, nearSta, route);
-                        lv_history.setAdapter(adapter);
+//              数据返回正常就显示，否则继续请求接口
+                if (routeStationInfoList != null && routeStationInfoList.getDataList() != null) {
+                    if (routeStationInfoList.getDataList().size() == 0) {
+                        ToastUtils.showToast(ActivityRealTimeBusSearch.this, "未查询到该线路信息");
                     } else {
-                        if (segmentList1 != null && segmentList1.size() > 0) {
-                            segmentList1.add(routeStationInfoList.getDataList().get(0));
-                            adapter1.notifyDataSetChanged();
+                        if (routeStationInfoList.getDataList().get(0).getSegmentList().size() > 1) {
+                            segmentList.addAll(routeStationInfoList.getDataList().get(0).getSegmentList());
+                            adapter = new SearchRouteAdapter(segmentList, nearSta, route);
+                            lv_history.setAdapter(adapter);
                         } else {
-                            segmentList1.add(routeStationInfoList.getDataList().get(0));
-                            adapter1 = new SearchRouteAdapter1(segmentList1, nearSta);
-                            lv_history.setAdapter(adapter1);
-                            switch (route) {
-                                case 331:
-                                    route = 332;
-                                    break;
-                                case 661:
-                                    route = 662;
-                                    break;
-                                case 771:
-                                    route = 772;
-                                    break;
-                                case 4011:
-                                    route = 4012;
-                                    break;
+                            if (segmentList1 != null && segmentList1.size() > 0) {
+                                segmentList1.add(routeStationInfoList.getDataList().get(0));
+                                adapter1.notifyDataSetChanged();
+                            } else {
+                                segmentList1.add(routeStationInfoList.getDataList().get(0));
+                                adapter1 = new SearchRouteAdapter1(segmentList1, nearSta);
+                                lv_history.setAdapter(adapter1);
+                                switch (route) {
+                                    case 331:
+                                        route = 332;
+                                        break;
+                                    case 661:
+                                        route = 662;
+                                        break;
+                                    case 771:
+                                        route = 772;
+                                        break;
+                                    case 4011:
+                                        route = 4012;
+                                        break;
+                                }
+                                routeStationInfoAction.sendAction(route);
                             }
-                            routeStationInfoAction.sendAction(route);
                         }
                     }
+                } else {
+                    searchRoute();
                 }
             } else {
                 checkAllUpadate(rescode, getinfo);
             }
         } catch (Exception e) {
             Log.e("EEE", e.toString());
-            showExceptionAlertDialog();
+//            showExceptionAlertDialog();
+            showAlertDialog("网络请求异常,请点击重试", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    searchRoute();
+                }
+            });
         }
     }
 

@@ -16,6 +16,8 @@ import com.whpe.qrcode.shandong_jining.fragment.FrgHome;
 import com.whpe.qrcode.shandong_jining.fragment.FrgMyself;
 import com.whpe.qrcode.shandong_jining.net.JsonComomUtils;
 import com.whpe.qrcode.shandong_jining.net.getbean.LoadQrcodeParamBean;
+import com.whpe.qrcode.shandong_jining.parent.BackgroundTitleActivity;
+import com.whpe.qrcode.shandong_jining.parent.CustomNormalTitleActivity;
 import com.whpe.qrcode.shandong_jining.parent.ParentActivity;
 
 
@@ -23,7 +25,7 @@ import com.whpe.qrcode.shandong_jining.parent.ParentActivity;
  * Created by yang on 2018/9/30.
  */
 
-public class ActivityMain extends ParentActivity implements View.OnClickListener {
+public class ActivityMain extends CustomNormalTitleActivity implements View.OnClickListener {
     private FrgHome frgHome;
     private FrgMyself frgMy;
     private ImageView iv_qrcode, tv_home, tv_my;
@@ -51,6 +53,7 @@ public class ActivityMain extends ParentActivity implements View.OnClickListener
 
     @Override
     protected void onCreateInitView() {
+        setMyTitleColor(R.color.comon_text_black_less);
         showHome();
         tv_home.setOnClickListener(this);
         tv_my.setOnClickListener(this);
