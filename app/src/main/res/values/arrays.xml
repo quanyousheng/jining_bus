@@ -25,7 +25,7 @@
 
     //用于显示的充值卡片金额
     <string-array name="rechargecard_money_select">
-        <item> 0.01 </item>
+        <!--<item> 0.01 </item>-->
         <item> 20 </item>
         <item> 50 </item>
         <item> 100 </item>
