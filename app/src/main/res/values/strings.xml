@@ -1,7 +1,7 @@
 <resources>
     <string name="data_password">12345ssdlhlhbcfzcdhd</string>
     <!--<string name="app_name">济宁公交App</string>-->
-    <string name="app_name">济宁公交App(测试版不能外流)</string>
+    <string name="app_name">济宁公交App</string>
     <string name="app_alertdialog_title">系统提示</string>
     <string name="app_alertdialog_exception_msg">系统异常</string>
     <string name="app_request_exception_msg">请求失败</string>
@@ -145,7 +145,7 @@
 
 
     <string name="aboutus_title">关于我们</string>
-    <string name="aboutus_txt">济宁公交App是济宁公交推出的二维码乘车APP，提供公交扫码乘车服务</string>
+    <string name="aboutus_txt">济宁公交App是济宁市公交集团推出的，提供公交扫码乘车、实体公交卡充值（CPU卡）、实时公交查询及最新线路信息等服务的App</string>
     <string name="aboutus_phonetitle">公交热线</string>
     <string name="aboutus_phone">0537-2317429</string>
     <!--<string name="aboutus_weburltitle">公司官网</string>

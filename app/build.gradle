@@ -83,4 +83,5 @@ dependencies {
     implementation files('libs/BaiduLBS_Android.jar')
     implementation files('libs/AppServer_ShanDong_JiNing.jar')
     implementation files('libs/core.jar')
+    implementation 'com.android.support:design:26.1.0'
 }

@@ -37,7 +37,9 @@
         <activity android:name=".activity.ActivitySettings" />
         <activity android:name=".activity.ActivityQrcode" />
         <activity android:name=".activity.ActivityUsehelp" />
-        <activity android:name=".activity.ActivityLogin" />
+        <activity
+            android:name=".activity.ActivityLogin"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".activity.ActivityPayWeb" />
         <activity android:name=".activity.ActivityNewsWeb" />
         <activity android:name=".activity.ActivityTitleWeb" />
