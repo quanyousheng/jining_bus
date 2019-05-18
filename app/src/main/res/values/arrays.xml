@@ -28,16 +28,16 @@
         <!--<item> 0.01 </item>-->
         <item> 20 </item>
         <item> 50 </item>
+        <item> 80 </item>
         <item> 100 </item>
-        <item> 200 </item>
     </string-array>
     //用于发送的充值卡片数据
     <string-array name="rechargecard_payunity_money">
-        <item> 1 </item>
+        <!--<item> 1 </item>-->
         <item> 2000 </item>
         <item> 5000 </item>
+        <item> 8000 </item>
         <item> 10000 </item>
-        <!--<item> 20000 </item>-->
     </string-array>
 
     <string-array name="paypurse_paytype_select">
