@@ -3,11 +3,11 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.whpe.qrcode.shandong_jining"
+        applicationId "com.whpe.qrcode.shandong.jining"
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
-        versionName "1.2.3"
+        versionName "1.2.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     //签名
