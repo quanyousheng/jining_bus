@@ -264,4 +264,9 @@ public class ActivityRealTimeBusShowBusInfo extends CustomNormalTitleActivity im
         dissmissProgress();
         ToastUtils.showToast(this, resmsg);
     }
+
+    public void showMap(View view) {
+//        transAty(BusRouteMapActivity.class);
+        BusRouteMapActivity.actionStart(this, routeId);
+    }
 }

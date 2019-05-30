@@ -21,11 +21,16 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.model.LatLng;
 import com.whpe.qrcode.shandong_jining.GYDZApplication;
 import com.whpe.qrcode.shandong_jining.R;
-import com.whpe.qrcode.shandong_jining.bigtools.BDLocation.LocationService;
 import com.whpe.qrcode.shandong_jining.bigtools.GlobalConfig;
 import com.whpe.qrcode.shandong_jining.bigtools.ToastUtils;
 import com.whpe.qrcode.shandong_jining.net.JsonComomUtils;
@@ -42,6 +47,11 @@ import java.util.List;
 import java.util.Map;
 
 public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements View.OnClickListener, NearbyStatInfoAction.Inter_NearbyStatInfo, QueryByStationIDAction.Inter_QueryByStationID {
+    // 定位相关
+    LocationClient mLocClient;
+    boolean isFirstLoc = true; // 是否首次定位
+    public MyLocationListenner myListener = new MyLocationListenner();
+
     public static String TAG = "LocationUtil";
     private final int SDK_PERMISSION_REQUEST = 127;
     private final int GPS_REQUEST_CODE = 100;
@@ -57,21 +67,19 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
     private String nearSta;//最近站点
     private static final double longitude = 116.5938885585, latitude = 35.4209607038;//默认市政府地址
     private static double sucLongitude, sucLatitude;//定位成功的经纬度
-    private LocationService locationService;//百度定位服务
     private boolean showLocationFailDialog = false;//显示定位失败弹出提示框
     private boolean showNoDataDialog = false;//显示不在济宁弹出提示框
     private QueryByStationIDAction queryByStationIDAction;
-    private  boolean hasLocatePermission;//是否拥有定位权限
+    private boolean hasLocatePermission;//是否拥有定位权限
     private ArrayList<String> permissions = new ArrayList<String>();
 
     /*****
      * 定位结果回调，重写onReceiveLocation方法
      */
-    private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
+    public class MyLocationListenner implements BDLocationListener {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
-            // TODO Auto-generated method stub
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
                 sucLongitude = location.getLongitude();
                 sucLatitude = location.getLatitude();
@@ -103,7 +111,9 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
             }
         }
 
-    };
+        public void onReceivePoi(BDLocation poiLocation) {
+        }
+    }
 
     @Override
     protected void beforeLayout() {
@@ -115,18 +125,16 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
     @Override
     protected void onStart() {
         super.onStart();
-        // -----------location config ------------
-        locationService = ((GYDZApplication) getApplication()).locationService;
-        locationService.registerListener(mListener);
-        //注册监听
-        int type = getIntent().getIntExtra("from", 0);
-        if (type == 0) {
-            locationService.setLocationOption(locationService.getDefaultLocationClientOption());
-        } else if (type == 1) {
-            locationService.setLocationOption(locationService.getOption());
-        }
+        // 定位初始化
+        mLocClient = new LocationClient(this);
+        mLocClient.registerLocationListener(myListener);
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true); // 打开gps
+        option.setCoorType("bd09ll"); // 设置坐标类型
+        option.setScanSpan(30000);
+        mLocClient.setLocOption(option);
         if (hasLocatePermission)
-            locationService.start();// 定位SDK
+            mLocClient.start();
     }
 
     @Override
@@ -208,9 +216,8 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
      */
     @Override
     protected void onStop() {
-        // TODO Auto-generated method stub
-        locationService.unregisterListener(mListener); //注销掉监听
-        locationService.stop(); //停止定位服务
+        // 退出时销毁定位
+        mLocClient.stop();
         super.onStop();
     }
 
@@ -266,7 +273,7 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
             case SDK_PERMISSION_REQUEST:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted，do sth；
-                    locationService.start();// 定位SDK
+                    mLocClient.start();// 定位SDK
                 } else {
                     // permission denied,
                     ToastUtils.showToast(this, "请授予位置信息权限");

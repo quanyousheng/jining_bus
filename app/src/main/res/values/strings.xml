@@ -1,7 +1,7 @@
 <resources>
     <string name="data_password">12345ssdlhlhbcfzcdhd</string>
     <!--<string name="app_name">济宁公交App</string>-->
-    <string name="app_name">济宁公交App</string>
+    <string name="app_name">济宁公交</string>
     <string name="app_alertdialog_title">系统提示</string>
     <string name="app_alertdialog_exception_msg">系统异常</string>
     <string name="app_request_exception_msg">请求失败</string>
