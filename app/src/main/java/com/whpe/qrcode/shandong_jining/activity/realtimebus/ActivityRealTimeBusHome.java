@@ -226,12 +226,6 @@ public class ActivityRealTimeBusHome extends BackgroundTitleActivity implements 
     private void getPersimmions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             /***
-             * 在定位之前加入读取手机状态的动态权限申请
-             */
-            if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                permissions.add(Manifest.permission.READ_PHONE_STATE);
-            }
-            /***
              * 定位权限为必须权限，用户如果禁止，则每次进入都会申请
              */
             // 定位精确位置
