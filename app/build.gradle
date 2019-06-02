@@ -83,4 +83,11 @@ dependencies {
     implementation files('libs/AppServer_ShanDong_JiNing.jar')
     implementation files('libs/core.jar')
     implementation 'com.android.support:design:26.1.0'
+    implementation files('libs/baidumapapi_base_v3_7_3.jar')
+    implementation files('libs/baidumapapi_cloud_v3_7_3.jar')
+    implementation files('libs/baidumapapi_map_v3_7_3.jar')
+    implementation files('libs/baidumapapi_radar_v3_7_3.jar')
+    implementation files('libs/baidumapapi_search_v3_7_3.jar')
+    implementation files('libs/baidumapapi_util_v3_7_3.jar')
+    implementation files('libs/locSDK_6.13.jar')
 }

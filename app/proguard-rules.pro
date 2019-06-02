@@ -175,3 +175,6 @@
 -dontwarn com.whpe.qrcode.shandong_jining.parent.**
 -keep class com.whpe.qrcode.shandong_jining.parent.**{*;}
 -keep interface com.whpe.qrcode.shandong_jining.parent.**{*;}
+
+-keep  class com.baidu.**{*;}
+-keep  class vi.com.gdi.bgl.android.**{*;}
